@@ -1704,6 +1704,7 @@ namespace mdl {
             };
             Add(P);
 		}
+
 	    /// <summary>
 	    /// Append a db recoverable error  in the list of messages
 	    /// </summary>
@@ -1715,6 +1716,7 @@ namespace mdl {
             };
             Add(P);
 	    }
+
 		/// <summary>
 		/// Gets the Message at a specified index
 		/// </summary>
@@ -1734,7 +1736,6 @@ namespace mdl {
 	            if (!r.CanIgnore) CanIgnore = false;
 	        }
 	    }
-
 
 		/// <summary>
 		/// Adds a message to the list, updating CanIgnore status

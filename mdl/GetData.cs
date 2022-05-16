@@ -520,11 +520,7 @@ namespace mdl {
 			return NewR;
 		}
 
-
-		
-
-
-
+	
 		/// <summary>
 		/// Merge a filter (Filter1) with the static filter of a DataTable and
 		///  gives the resulting (AND) filter
@@ -540,9 +536,6 @@ namespace mdl {
 			}
 			return q.and(Filter1, Filter2);
 		}
-
-
-		
 
 
 	
@@ -663,8 +656,6 @@ namespace mdl {
 			StopTimer(gethandle);
 			return true;  
 		}
-
-
 		
        
 		/// <summary>
@@ -708,8 +699,6 @@ namespace mdl {
 			if (selList==null) model.GetTemporaryValues(table, Conn.Security);
             return mySel;
 		}
-
-
 
 		/// <summary>
 		/// Set sorting property of a DataTable
