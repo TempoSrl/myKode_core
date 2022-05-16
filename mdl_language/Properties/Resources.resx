@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddLabel" xml:space="preserve">
+    <value>Aggiungi</value>
+  </data>
+  <data name="AdviceLabel" xml:space="preserve">
+    <value>Avviso</value>
+  </data>
+  <data name="amount" xml:space="preserve">
+    <value>Importo</value>
+  </data>
+  <data name="askSaveChanges" xml:space="preserve">
+    <value>Salvare le modifiche?</value>
+  </data>
+  <data name="attachmentTooBig" xml:space="preserve">
+    <value>Gli allegati sono troppo grandi, non saranno modificati. Esco comunque?</value>
+  </data>
+  <data name="badExport" xml:space="preserve">
+    <value>Esportazione errata</value>
+  </data>
+  <data name="bold" xml:space="preserve">
+    <value>Grassetto</value>
+  </data>
+  <data name="bugOfficeXp" xml:space="preserve">
+    <value>A causa di un bug di Office, documentato qui: http://support.microsoft.com/kb/320369 è necessario installare Microsoft Office XP Multilingual User Interface Pack.</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="cantCloseWait" xml:space="preserve">
+    <value>La chiusura del form è temporaneamente inibita, attendere.</value>
+  </data>
+  <data name="cantDeleteObject" xml:space="preserve">
+    <value>Impossibile eliminare l'oggetto.</value>
+  </data>
+  <data name="childFormStillOpened" xml:space="preserve">
+    <value>Per chiudere una maschera è necessario prima chiudere le maschere da essa dipendenti.</value>
+  </data>
+  <data name="cmdInvalidatedTransaction" xml:space="preserve">
+    <value>Il comando {cmd} ha invalidato la transazione</value>
+  </data>
+  <data name="colRequired" xml:space="preserve">
+    <value>E' necessario selezionare una colonna</value>
+  </data>
+  <data name="columnName" xml:space="preserve">
+    <value>Nome colonna</value>
+  </data>
+  <data name="conditionSetWas" xml:space="preserve">
+    <value>La condizione di ricerca impostata era: '{filter}'.</value>
+  </data>
+  <data name="confirmDeleteListType" xml:space="preserve">
+    <value>Sei sicuro di voler eliminare l'elenco {listType}</value>
+  </data>
+  <data name="confirmDeleting" xml:space="preserve">
+    <value>Sei sicuro di voler cancellare?</value>
+  </data>
+  <data name="confirmTitle" xml:space="preserve">
+    <value>Conferma</value>
+  </data>
+  <data name="couldNotLinkTable" xml:space="preserve">
+    <value>Non sono riuscito a collegare la riga alla tabella {tableName} nel metadato {name}</value>
+  </data>
+  <data name="couldNotSelectRow" xml:space="preserve">
+    <value>La voce selezionata non poteva essere scelta.</value>
+  </data>
+  <data name="createdAt" xml:space="preserve">
+    <value>Creato il {data}</value>
+  </data>
+  <data name="createdBy" xml:space="preserve">
+    <value>Creato da {user}</value>
+  </data>
+  <data name="CreateLastMod" xml:space="preserve">
+    <value>Creazione/Ultima Modifica</value>
+  </data>
+  <data name="CreateTicketLabel" xml:space="preserve">
+    <value>Crea ticket</value>
+  </data>
+  <data name="DataDictionary" xml:space="preserve">
+    <value>Dizionario dati</value>
+  </data>
+  <data name="dataFolder" xml:space="preserve">
+    <value>Foglio Dati</value>
+  </data>
+  <data name="dbConnectionInterrupted" xml:space="preserve">
+    <value>La connessione al db è stata interrotta. E' necessario disconnettersi, ripristinare la rete e riconnettersi al db.</value>
+  </data>
+  <data name="dbFieldName" xml:space="preserve">
+    <value>Nome campo su DB</value>
+  </data>
+  <data name="dbTableName" xml:space="preserve">
+    <value>Tabella sul db</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Elimina</value>
+  </data>
+  <data name="DeleteCancelLabel" xml:space="preserve">
+    <value>Elimina/Annulla</value>
+  </data>
+  <data name="deleteFromTable" xml:space="preserve">
+    <value>Cancello l'oggetto {name} dalla tabella {tableName}</value>
+  </data>
+  <data name="DeleteLable" xml:space="preserve">
+    <value>Cancella</value>
+  </data>
+  <data name="deleteSelectedRowFromTable" xml:space="preserve">
+    <value>Cancello la riga selezionata dalla tabella {name}({tableName})</value>
+  </data>
+  <data name="description" xml:space="preserve">
+    <value>descrizione</value>
+  </data>
+  <data name="DoSearchLabel" xml:space="preserve">
+    <value>Effettua Ricerca</value>
+  </data>
+  <data name="doSysCmdError" xml:space="preserve">
+    <value>DO_SYSCMD: Error running {cmd} Result got: {res}</value>
+  </data>
+  <data name="EditLable" xml:space="preserve">
+    <value>Correggi</value>
+  </data>
+  <data name="emptyExport" xml:space="preserve">
+    <value>Esportazione vuota</value>
+  </data>
+  <data name="EmptyWithinPar" xml:space="preserve">
+    <value>(vuoto)</value>
+  </data>
+  <data name="errOpeningDuringSave" xml:space="preserve">
+    <value>Errore aprendo la connessione nel salvataggio</value>
+  </data>
+  <data name="errorDeletingListType" xml:space="preserve">
+    <value>Impossibile eliminare l'elenco  {listType}</value>
+  </data>
+  <data name="ErrorEmptyField" xml:space="preserve">
+    <value>Un determinato campo non può essere vuoto.</value>
+  </data>
+  <data name="ErrorEmptyKey" xml:space="preserve">
+    <value>Un campo chiave non può essere vuoto o duplicato.</value>
+  </data>
+  <data name="errorExportingExcel" xml:space="preserve">
+    <value>Errore durante l'esportazione in Excel. Riprovare e se l'errore persiste contattare l'assistenza.</value>
+  </data>
+  <data name="errorLoadingMeta" xml:space="preserve">
+    <value>Errore nel caricamento del metadato {unaliased}. E' necessario riavviare il programma.</value>
+  </data>
+  <data name="errorOpeningConnection" xml:space="preserve">
+    <value>Errore aprendo la connessione</value>
+  </data>
+  <data name="errorRunningCommand" xml:space="preserve">
+    <value>Errore nell'esecuzione del comando {command}</value>
+  </data>
+  <data name="errorRunningCommandCloseWindow" xml:space="preserve">
+    <value>Errore eseguendo il comando {cmd}
+E' necessario chiudere la maschera.</value>
+  </data>
+  <data name="errorSelectingRow" xml:space="preserve">
+    <value>Errore nella selezione della riga</value>
+  </data>
+  <data name="errorShowingForm" xml:space="preserve">
+    <value>Errore nella visualizzazione del form</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Errore</value>
+  </data>
+  <data name="fontName" xml:space="preserve">
+    <value>Tipo carattere</value>
+  </data>
+  <data name="fontSize" xml:space="preserve">
+    <value>Dimensione carattere</value>
+  </data>
+  <data name="impossibleToDeleteConditions" xml:space="preserve">
+    <value>Impossibile eliminare le condizioni</value>
+  </data>
+  <data name="impossibleToSaveCondition" xml:space="preserve">
+    <value>Impossibile salvare la condizione</value>
+  </data>
+  <data name="InfoAboutObject" xml:space="preserve">
+    <value>Informazioni sull'oggetto</value>
+  </data>
+  <data name="insertCancelOnTable" xml:space="preserve">
+    <value>Annullo l'inserimento dell'oggetto {name} nella tabella {tableName}</value>
+  </data>
+  <data name="InsertCopyConfirm" xml:space="preserve">
+    <value>E' stato premuto il tasto inserisci copia. Si desidera davvero creare una copia dei dati già salvati?</value>
+  </data>
+  <data name="InsertCopyLabel" xml:space="preserve">
+    <value>Inserisci copia</value>
+  </data>
+  <data name="InsertLabel" xml:space="preserve">
+    <value>Inserisci</value>
+  </data>
+  <data name="invalidDataOnTable" xml:space="preserve">
+    <value>La tabella {tableName} contiene dati non validi. Contattare il servizio di assistenza.</value>
+  </data>
+  <data name="invalidDate" xml:space="preserve">
+    <value>Data non valida</value>
+  </data>
+  <data name="italic" xml:space="preserve">
+    <value>Corsivo</value>
+  </data>
+  <data name="list" xml:space="preserve">
+    <value>Elenco</value>
+  </data>
+  <data name="listColPos" xml:space="preserve">
+    <value>Posizione colonna</value>
+  </data>
+  <data name="listNameIs" xml:space="preserve">
+    <value>Nome Elenco: '{listingType}'.</value>
+  </data>
+  <data name="ListOfName" xml:space="preserve">
+    <value>Elenco {name}</value>
+  </data>
+  <data name="modifiedAt" xml:space="preserve">
+    <value>Modificato il {data}</value>
+  </data>
+  <data name="modifiedBy" xml:space="preserve">
+    <value>Modificato da {user}</value>
+  </data>
+  <data name="moreThanOneRowInTable" xml:space="preserve">
+    <value>Errore: C'è più di una riga nella tabella {table}</value>
+  </data>
+  <data name="noConditionUsed" xml:space="preserve">
+    <value>Nessuna condizione è stata usata.</value>
+  </data>
+  <data name="NoElementFound" xml:space="preserve">
+    <value>Nessun elemento trovato.</value>
+  </data>
+  <data name="noObjectFound" xml:space="preserve">
+    <value>Nessun oggetto trovato</value>
+  </data>
+  <data name="NoRowFound" xml:space="preserve">
+    <value>Nessuna riga trovata.</value>
+  </data>
+  <data name="noRowFoundInTable" xml:space="preserve">
+    <value>Nella tabella '{table}' non è stata trovata alcuna riga.</value>
+  </data>
+  <data name="NotesLabel" xml:space="preserve">
+    <value>Appunti</value>
+  </data>
+  <data name="noValidTransaction" xml:space="preserve">
+    <value>La transazione corrente non è più valida</value>
+  </data>
+  <data name="OpenRelatedDocument" xml:space="preserve">
+    <value>Apri documento collegato</value>
+  </data>
+  <data name="operatorRequired" xml:space="preserve">
+    <value>E' necessario selezionare un operatore</value>
+  </data>
+  <data name="overallTotal" xml:space="preserve">
+    <value>Totale Complessivo</value>
+  </data>
+  <data name="primaryKeyConflict" xml:space="preserve">
+    <value>E' stata inserita una riga con la stessa chiave primaria di un altra esistente.  E' necessario modificare i dati immessi per salvarli.</value>
+  </data>
+  <data name="readObjArrayError" xml:space="preserve">
+    <value>readObjectArray: Error running {query}</value>
+  </data>
+  <data name="RefreshLabel" xml:space="preserve">
+    <value>Aggiorna</value>
+  </data>
+  <data name="result" xml:space="preserve">
+    <value>risultato</value>
+  </data>
+  <data name="rowNotFound" xml:space="preserve">
+    <value>Riga richiesta non trovata</value>
+  </data>
+  <data name="SaveLabel" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="saving" xml:space="preserve">
+    <value>Salvataggio</value>
+  </data>
+  <data name="SearchWithinPar" xml:space="preserve">
+    <value>(Ricerca)</value>
+  </data>
+  <data name="selectedRowNotPresent" xml:space="preserve">
+    <value>La riga selezionata non è più presente nel db.</value>
+  </data>
+  <data name="selectFile" xml:space="preserve">
+    <value>Seleziona il file da creare</value>
+  </data>
+  <data name="SelectLabel" xml:space="preserve">
+    <value>Seleziona</value>
+  </data>
+  <data name="SetSearchLabel" xml:space="preserve">
+    <value>Imposta Ricerca</value>
+  </data>
+  <data name="stillNotOpenedForm" xml:space="preserve">
+    <value>Attendere l'apertura del form per chiuderlo!</value>
+  </data>
+  <data name="StringTooLong" xml:space="preserve">
+    <value>Campo troppo lungo</value>
+  </data>
+  <data name="TableFilterApplied" xml:space="preserve">
+    <value>Tabella:{searchTable}
+Filtro applicato:{checkfilter}</value>
+  </data>
+  <data name="TableMiddleInMemory" xml:space="preserve">
+    <value>Tabella:{middle} presente in memoria.</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Totale</value>
+  </data>
+  <data name="underline" xml:space="preserve">
+    <value>Sottolineato</value>
+  </data>
+  <data name="unsavedDataWarn" xml:space="preserve">
+    <value>Ci sono modifiche ai dati non salvate. Si desidera perdere le modifiche?</value>
+  </data>
+  <data name="valueRequired" xml:space="preserve">
+    <value>E' necessario inserire un valore</value>
+  </data>
+  <data name="visible" xml:space="preserve">
+    <value>Visibile</value>
+  </data>
+  <data name="waitForCommandCompletion" xml:space="preserve">
+    <value>Attendere la fine dell'esecuzione del comando</value>
+  </data>
+  <data name="waitForOperationEnd" xml:space="preserve">
+    <value>Attendere il completamento dell'operazione per chiudere il form.</value>
+  </data>
+  <data name="WarningLabel" xml:space="preserve">
+    <value>Attenzione</value>
+  </data>
+  <data name="width" xml:space="preserve">
+    <value>Larghezza</value>
+  </data>
+  <data name="windowMustBeClosed" xml:space="preserve">
+    <value>Per poter procedere è necessario CHIUDERE la finestra con cui si stava lavorando e ripetere l'operazione.
+E' consigliabile ad ogni modo chiamare il servizio assistenza lasciando aperta questa schermata.</value>
+  </data>
+  <data name="wrongData" xml:space="preserve">
+    <value>Dati errati</value>
+  </data>
+</root>

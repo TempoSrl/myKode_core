@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS4014: Non è possibile attendere la chiamata, pertanto l'esecuzione del metodo corrente continuerà prima del completamento della chiamata
+dotnet_diagnostic.CS4014.severity = error

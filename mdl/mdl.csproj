@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="dbstructure.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="dbstructure.xsd">
+      <Generator>HDSGene</Generator>
+      <LastGenOutput>dbstructure.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AsyncDataAdapter" Version="1.0.25.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="3.6.0" />
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\mdl_language\mdl_language.csproj" />
+    <ProjectReference Include="..\mdl_utils\mdl_utils.csproj" />
+  </ItemGroup>
+
+</Project>
