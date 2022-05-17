@@ -2578,8 +2578,8 @@ namespace mdl {
 		}
 
 
-		private IDataAccess conn;
-		private QueryHelper qhs;
+        protected IDataAccess conn;
+		protected QueryHelper qhs;
 
         /// <summary>
         /// List of PostData classes that concurr in the transaction

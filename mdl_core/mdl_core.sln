@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\PostData.md = ..\PostData.md
 		..\QueryHelpper.md = ..\QueryHelpper.md
 		..\readme.md = ..\readme.md
+		..\Security.md = ..\Security.md
 	EndProjectSection
 EndProject
 Global

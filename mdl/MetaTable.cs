@@ -1632,7 +1632,7 @@ namespace mdl {
         /// <param name="sourceColumn">autoincrement column</param>
         /// <param name="columnName">selector column</param>
         /// <param name="mask"></param>
-        public static void SetSelector(this DataColumn c, string columnName, UInt64 mask) {
+        public static void SetSelector(this DataColumn c, string columnName, UInt64 mask=0) {
             RowChange.setMySelector(c, columnName, mask);
         }
 
