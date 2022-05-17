@@ -933,7 +933,7 @@ namespace mdl {
         ///  for any DataRow set erroneously as modified
         /// </summary>
         /// <param name="DS"></param>
-        public static void RemoveFalseUpdates(this DataSet DS){
+        public static void RemoveFalseUpdates(this DataSet DS){            
 	        foreach(DataTable T in DS.Tables){
 		        if (MetaModel.IsTemporaryTable(T))continue;
 		        foreach (DataRow R in T.Rows) {
@@ -2400,6 +2400,12 @@ namespace mdl {
             }
 
             return res.ToArray();
+        }
+
+        public static void _forEach(this DataSet d, Action<DataTable> operation) {
+            foreach (DataTable t in d.Tables) {
+                operation(t);
+            }
         }
 
         /// <summary>

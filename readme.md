@@ -55,7 +55,7 @@ Il salvataggio e la lettura dei dati avvengono invocando un metodo (PostData.Sav
 
 Pertanto non è necessario scrivere istruzioni SQL per leggere o scrivere dati, basta disegnare il DataSet (tipicamente con i designer incluso in visual studio), mettere in relazione le tabelle in esso contenute, disegnando quella che è "la vista" della funzione che si sta scrivendo sul database.
 
-Ogni funzione che accede al database tipicamente ha un dataset associato, ma nulla vieta che questo sia utilizzato (a livello di classe) da più funzioni, a livello di classe. Tuttavia non è possibile utilizzare la stessa istanza di dataset in thread diversi, in sostanza un'istanza di un dataset va trattata come un set di dati locale e **non come sostituto in-memory di un database**.
+Ogni funzione che accede al database tipicamente ha un dataset associato, ma nulla vieta che questo sia utilizzato (a livello di classe) da più funzioni. Tuttavia non è possibile utilizzare la stessa istanza di dataset in thread diversi, in sostanza un'istanza di un dataset va trattata come un set di dati locale e **non come sostituto in-memory di un database**.
 
 ## Categorizzazione delle tabelle
 Il salvataggio e la lettura dei dati, come abbiamo anticipato, avvengono in base alla struttura del dataset e ad eventuali impostazioni aggiuntive. 

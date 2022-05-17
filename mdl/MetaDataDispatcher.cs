@@ -28,14 +28,14 @@ namespace mdl {
         /// </summary>     
         /// <param name="metaDataName"></param>
         /// <returns></returns>
-        MetaData DefaultMetaData(string metaDataName);
+        IMetaData DefaultMetaData(string metaDataName);
 
         /// <summary>
         /// Returns a custom MetaData, given its name
         /// </summary>
         /// <param name="metaDataName"></param>
         /// <returns></returns>
-        MetaData Get(string metaDataName);
+        IMetaData Get(string metaDataName);
 
         /// <summary>
         /// Edit an entity (tablename) with a specified edit-type
@@ -54,24 +54,13 @@ namespace mdl {
     ///  them using Forms identified by logical names
     /// </summary>
     public class MetaDataDispatcher :IMetaDataDispatcher {
-        /// <summary>
-        /// Interface to the physical DB
-        /// </summary>
-        [Obsolete] public DataAccess Conn;
-
-        private IDataAccess _dbConn;
+        
 
         /// <summary>
         /// Data access linked to the dispatcher
         /// </summary>
 #pragma warning disable 612
-        public IDataAccess dbConn {
-            get { return _dbConn ?? Conn; }
-            set {
-                _dbConn = value;
-                Conn = value as DataAccess;
-            }
-        }
+        public IDataAccess Conn {get;set;}
 #pragma warning restore 612
 
         private ISecurity _security;
@@ -80,7 +69,7 @@ namespace mdl {
         /// 
         /// </summary>
         public ISecurity security {
-            get { return _security ?? dbConn?.Security; }
+            get { return _security ?? Conn?.Security; }
             set { _security = value; }
         }
 
@@ -104,7 +93,7 @@ namespace mdl {
         /// </summary>
         /// <param name="conn"></param>
         public MetaDataDispatcher(IDataAccess conn) {
-            dbConn = conn;
+            this.Conn = conn;
             security = conn.Security;
         }
 
@@ -114,7 +103,7 @@ namespace mdl {
         /// <param name="msg"></param>
         /// <param name="e"></param>
         public void logException(string msg, Exception e) {
-            errorLogger.logException(msg, exception: e, dataAccess: dbConn);
+            errorLogger.logException(msg, exception: e, dataAccess: Conn);
         }
 
 
@@ -167,8 +156,8 @@ namespace mdl {
         /// </summary>
         /// <param name="objectname"></param>
         /// <returns></returns>
-        public virtual MetaData DefaultMetaData(string objectname) {
-            return new MetaData(dbConn, this, security, objectname);
+        public virtual IMetaData DefaultMetaData(string objectname) {
+            return new MetaData(Conn, this, security, objectname);
         }
 
 
@@ -192,8 +181,8 @@ namespace mdl {
         /// </summary>
         /// <param name="metaDataName"></param>
         /// <returns></returns>
-        public virtual MetaData Get(string metaDataName) {
-            return new MetaData(dbConn, this, security, metaDataName);
+        public virtual IMetaData Get(string metaDataName) {
+            return new MetaData(Conn, this, security, metaDataName);
         }
 
     

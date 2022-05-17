@@ -70,7 +70,7 @@ namespace mdl {
         /// <param name="metaDataName"></param>
         /// <returns></returns>
         /// 
-        public override MetaData Get(string metaDataName) {
+        public override IMetaData Get(string metaDataName) {
            
 
             var handle = Metaprofiler.StartTimer("Get metaDataName * "+metaDataName);       
@@ -129,7 +129,7 @@ namespace mdl {
                 if (a == null) {
                     //Conn.LogError(ErrMsg,null);
                     StopTimer(handle);
-                    MetaData m =  DefaultMetaData(metaDataName);
+                    var m =  DefaultMetaData(metaDataName);
                     if (doLog) ErrorLogger.Logger.MarkEvent($"last Error during load:{LoadError[metaDataName]}");
                     return m;
                 }
@@ -150,7 +150,7 @@ namespace mdl {
                                     && c.GetParameters()[2].ParameterType.GetInterfaces().Contains(typeof(ISecurity))
                                       )
                         ).FirstOrDefault();
-                var parametri = new object[] {dbConn, this as IMetaDataDispatcher, security};
+                var parametri = new object[] {Conn, this as IMetaDataDispatcher, security};
                 if (metaObjBuilder == null) {
                     //For retro compatibility
                     metaObjBuilder = metaObjType.GetConstructor(
