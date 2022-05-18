@@ -84,12 +84,12 @@ Se si specifica parentRow e tra la tabella T e parentRow.table vi è più di una
 Ad esempio, potremmo avere:
 
 	public override Task<DataRow> GetNewRow(DataTable T, 
-											DataRow parentRow=null, 
-											string editType=null, 
-											string relationName=null) {
-			T.Columns["rownum"].SetSelector("yman");
-			T.Columns["rownum"].SetSelector("nman");
-			T.Columns["rownum"].SetSelector("idmankind");
+                                            DataRow parentRow=null, 
+                                            string editType=null, 
+                                            string relationName=null) {
+            T.Columns["rownum"].SetSelector("yman");
+            T.Columns["rownum"].SetSelector("nman");
+            T.Columns["rownum"].SetSelector("idmankind");
             T.Columns["rownum"].SetAutoincrement();
             return  base.GetNewRow(ParentRow, T);
 	}
@@ -98,9 +98,9 @@ In questo caso il campo rownum è un progressivo che viene calcolato a parità d
 Se ci sono due campi ad autoincremento (e non ve ne sono altri) e hanno gli stessi selettori possiamo impostarli sulla tabella anziché sui singoli campi:
 
 	public override Task<DataRow> GetNewRow(DataTable T, 
-											DataRow parentRow=null, 
-											string editType=null, 
-											string relationName=null) {
+                                            DataRow parentRow=null, 
+                                            string editType=null, 
+                                            string relationName=null) {
 			T.SetSelector("yman");
 			T.SetSelector("nman");
 			T.SetSelector("idmankind");
