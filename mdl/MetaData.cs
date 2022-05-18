@@ -360,7 +360,7 @@ namespace mdl {
         /// </summary>
         /// <param name="listingType"></param>
         /// <returns></returns>
-        public virtual string GetStaticFilter(string listingType) {
+        public virtual MetaExpression GetStaticFilter(string listingType) {
             return null;
         }
 
@@ -418,46 +418,7 @@ namespace mdl {
             dc.SetExpression( expr);
         }
 
-        /// <summary>
-        /// Assign the caption (used in grids and lists) for a DataColumn
-        /// </summary>
-        /// <param name="T">Table to which Column belongs</param>
-        /// <param name="colName">Column Name</param>
-        /// <param name="caption">Caption wanted for the Column, empty string if it has to be hidden</param>
-        public static void DescribeAColumn(DataTable T, string colName, string caption) {
-            if (T.Columns[colName] == null) return;
-            T.Columns[colName].Caption = caption;
-        }
-
-        /// <summary>
-        ///  Assign the caption (used in grids and lists) for a DataColumn
-        /// </summary>
-        /// <param name="T"></param>
-        /// <param name="colName">Column Name</param>
-        /// <param name="caption">Caption wanted for the Column, if empty or starts with ! is hidden</param>
-        /// <param name="listcolpos">Position of the column in the list, -1 if it has to be hidden</param>
-        public static void DescribeAColumn(DataTable T, string colName, string caption, int listcolpos) {
-            if (T.Columns[colName] == null) return;
-            T.Columns[colName].Caption = caption;
-            T.Columns[colName].ExtendedProperties["ListColPos"] = listcolpos;
-        }
-
-        /// <summary>
-        /// Assign the caption (used in grids and lists) and the 
-        ///  expression (tablename.fieldname) for a DataColumn. The column becomes
-        ///  a "temporary" column, so it's never read/written to db
-        /// </summary>
-        /// <param name="T">Table to which Column belongs</param>
-        /// <param name="colName">Column Name (the column must already exist in the table)</param>
-        /// <param name="caption">Caption wanted for the Column, if empty or starts with ! is hidden</param>
-        /// <param name="expression">Expression that will be used to calculate field</param>
-        public static void DescribeAColumn(DataTable T, string colName, string caption,
-            string expression) {
-            if (T.Columns[colName] == null) return;
-            T.Columns[colName].Caption = caption;
-            T.Columns[colName].SetExpression( expression);
-        }
-
+    
 
         /// <summary>
         ///  Assign the caption (used in grids and lists) for a DataColumn
@@ -468,21 +429,18 @@ namespace mdl {
         /// <param name="expression">Expression assigned to the column</param>
         /// <param name="listcolpos">Position of the column in the list, -1 if it has to be hidden</param>
         public static void DescribeAColumn(DataTable T, string colName, string caption,
-            string expression, int listcolpos) {
+            int listcolpos, object expression = null) {
             if (T.Columns[colName] == null) return;
             T.Columns[colName].Caption = caption;
-            T.Columns[colName].SetExpression( expression);
+            if (expression != null) {
+                T.Columns[colName].SetExpression(expression);
+            }
             T.Columns[colName].ExtendedProperties["ListColPos"] = listcolpos;
         }
 
         #endregion
 
         #region Gestione Form Detail: GetSourceChanges, SetSource
-
-
-
-
-      
 
 
         /// <summary>
@@ -710,7 +668,7 @@ namespace mdl {
         /// </summary>
         /// <param name="T"></param>
         /// <returns></returns>
-        public virtual string GetFilterForInsert(DataTable T) {
+        public virtual MetaExpression GetFilterForInsert(DataTable T) {
             return null;
         }
 
@@ -719,7 +677,7 @@ namespace mdl {
         /// </summary>
         /// <param name="T"></param>
         /// <returns></returns>
-        public virtual string GetFilterForSearch(DataTable T) {
+        public virtual MetaExpression GetFilterForSearch(DataTable T) {
             return null;
         }
 

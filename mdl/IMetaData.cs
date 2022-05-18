@@ -65,7 +65,7 @@ namespace mdl {
         /// </summary>
         /// <param name="listingType"></param>
         /// <returns></returns>
-        string GetStaticFilter(string listingType);
+        MetaExpression GetStaticFilter(string listingType);
 
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace mdl {
         /// </summary>
         /// <param name="T"></param>
         /// <param name="ListingType"></param>
-        Task DescribeColumns(DataTable T, string ListingType);
+        Task DescribeColumns(DataTable T, string listingType);
 
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace mdl {
         /// </summary>
         /// <param name="r">DataRow to which do custom field calculation</param>
         /// <param name="listType">listing type used for calculation</param>
-        void CalculateFields(DataRow r, string listType);
+        void CalculateFields(DataRow r, string listingType);
 
         /// <summary>
         /// Tells if a given DataRow must be displayed in a given list
@@ -129,7 +129,7 @@ namespace mdl {
         /// <param name="r">DataRow To Check for a filter condition</param>
         /// <param name="listType">kind of list</param>
         /// <returns>true when Row must be displayed</returns>
-        bool FilterRow(DataRow r, string listType);
+        bool FilterRow(DataRow r, string listingType);
 
         /// <summary>
         /// Tells MetaData Engine to call CalculateFields(R,ListingType) whenever:
@@ -138,7 +138,7 @@ namespace mdl {
         /// </summary>
         /// <param name="primary">DataTable to which calculate fields</param>
         /// <param name="listingType">kind of list used for calculation</param>
-        void ComputeRowsAs(DataTable primary, string listingType);
+        void ComputeRowsAs(DataTable T, string listingType);
 
         /// <summary>
         /// Mark a table to be field-calculated
@@ -151,14 +151,14 @@ namespace mdl {
         /// </summary>
         /// <param name="T"></param>
         /// <returns></returns>
-        string GetFilterForInsert(DataTable T);
+        MetaExpression GetFilterForInsert(DataTable T);
 
         /// <summary>
         /// Used to filter combobox when main table is in search mode
         /// </summary>
         /// <param name="T"></param>
         /// <returns></returns>
-        string GetFilterForSearch(DataTable T);
+        MetaExpression GetFilterForSearch(DataTable T);
 
         /// <summary>
         /// Sets default values for fields. This is necessary when those do not allow 

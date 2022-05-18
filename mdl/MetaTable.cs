@@ -1654,9 +1654,9 @@ namespace mdl {
 		/// else newID = max(ID of same PREFIX-ed rows) + 1
 		/// </remarks>
 		static public void SetAutoincrement(this DataColumn c,
-                string prefix,
-                string middle,
-                int length,
+                string prefix=null,
+                string middle=null,
+                int length=0,
                 bool linear = false) {        
             RowChange.markAsAutoincrement(c, prefix, middle, length, linear);
         }

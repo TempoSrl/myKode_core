@@ -2626,10 +2626,6 @@ namespace mdl {
 
 
 
-
-
-
-
 		/// <summary>
 		/// Gets a new DataJournaling object 
 		/// </summary>

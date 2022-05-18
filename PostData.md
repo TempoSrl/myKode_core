@@ -98,7 +98,24 @@ e utilizzare l'estensione setCustomAutoincrement sul DataTable implicato:
     void setCustomAutoincrement(this DataTable T, string field, RowChange.CustomCalcAutoId customFunction); 
 
 
+### Ottimizzazione in fase di calcolo
 
+E' possibile attuare un'ottimizzazione se occorre salvare molte righe da una tabella e non si desidera ricalcolare i campi ad autoincremento per ogni riga. Invocare questo metodo effettuerà il consueto select max(nome campo) from table... (orientativamente, dipendentemente dalle proprietà impostate) una sola volta e per tutte le righe successive della stessa transazione utilizzerà il numero calcolato precedentemente aumentato di uno, tenendo conto di selettori, maschere e tutto. Può accelerare di molto il salvataggio dei dati ed è consigliato per i salvataggi massivi.
+
+Per attivare questo tipo di ottimizzazione su un DataTable T è sufficiente invocare:
+
+        T.setOptimized(true);
+
+
+### Ordine da considerare per le righe da salvare
+
+Non è in genere necessario ma è possibile indicare a PostData in quale ordine effettuare il salvataggio delle righe presente in una certa tabella, invocando l'estensione:
+
+
+    setPostingOrder(this DataTable T, string order);
+
+order è del tipo "campo1 ASC, campo2 DESC" o simili.
+In assenza di una tale indicazione, PostData salverà le righe nell'ordine in cui sono presenti nel DataTable (a parità di stato in cui si trovano I/U/D), che di solito è più che sufficiente.
 
 
 ## Personalizzazioni

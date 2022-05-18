@@ -332,6 +332,15 @@ poi ci sono un paio di metodi che sono utili quando la struttura cambia, ad esem
 RefreshStructure rilegge sulla struttura dalle tabelle del db e se non li trova ricalcola la struttura usando gli strumenti di analisi forniti dal database. DetectStructure invece ricalcola la struttura con gli strumenti di analisi del database. Il primo è utile se si utilizzano le tabelle customobject e columntypes e le si aggiorna nel corso di un update del db con degli script. Il secondo funziona anche senza l'uso di tali tabelle.
 
 
+## Gestione della sicurezza (ISecurity)
+
+La classe DataAccess  utilizza le [MetaExpression](MetaExpression.md) in più punti, e per farlo, potendo queste fare riferimento a delle variabili di ambiente, ad esempio per filtrare l'esercizio contabile o i permessi dell'utente, ha bisogno di una classe ISecurity che gliele fornisca. 
+La classe DataAccess espone una proprietà Security di tipo ISecurity e può essere interrogata o impostata in qualsiasi momento. 
+L'interfaccia [ISecurity](Security.md) è molto semplice e non consiste altro che nell'accesso a due dictionary<string,object> sys e usr. Poiché queste sono indispensabili per poter effettuare delle interrogazioni, c'è un metodo virtuale nella classe DataAccess (CreateSecurity) che viene invocato on-demand non appena è richiesta un'istanza di ISecurity e questa non sia stata ancora fornita.
+
+E' molto importante in una applicazione derivare una classe DataAccess in cui ridefinire il metodo CreateSecurity, o in alternativa assegnare un'istanza di una classe che implementi ISecurity ogni volta che si ottiene un DataAccess dal [DBDescriptor](DbDescriptor.md).
+Nel primo caso sarà necessario derivare una classe apposita, e potrebbe fare comodo ove non si intenda effettuare una cache degli environment degli utenti. 
+Se invece si prevede una vita media delle sessioni abbastanza elevata, potrebbe essere il caso di calcolare e tenere in memoria gli environment degli utenti che stanno correntemente usando l'applicazione, ed usare quindi la seconda ipotesi, ossia assegnare la proprietà Security di un utente qualora questa risulti già in memoria.
 
 
 

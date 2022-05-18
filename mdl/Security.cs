@@ -381,6 +381,7 @@ namespace mdl {
 
 
         /// <summary>
+        /// 
         /// Check if a row can be selected
         /// </summary>
         /// <param name="r"></param>
@@ -401,15 +402,6 @@ namespace mdl {
         }
 
        
-
-        /// <summary>
-        /// Check if a the first row of T can be printed
-        /// </summary>
-        /// <param name="T"></param>
-        /// <returns></returns>
-        public virtual bool CanPrintSingleRowInTable(DataTable T) {
-            return CanPrint(T.Rows[0]);
-        }
 
         /// <summary>
         /// Check if R can be "printed". 
