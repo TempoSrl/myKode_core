@@ -332,7 +332,7 @@ poi ci sono un paio di metodi che sono utili quando la struttura cambia, ad esem
 RefreshStructure rilegge sulla struttura dalle tabelle del db e se non li trova ricalcola la struttura usando gli strumenti di analisi forniti dal database. DetectStructure invece ricalcola la struttura con gli strumenti di analisi del database. Il primo è utile se si utilizzano le tabelle customobject e columntypes e le si aggiorna nel corso di un update del db con degli script. Il secondo funziona anche senza l'uso di tali tabelle.
 
 
-## Gestione della sicurezza (ISecurity)
+## Gestione della sicurezza ([ISecurity](Security.md)
 
 La classe DataAccess  utilizza le [MetaExpression](MetaExpression.md) in più punti, e per farlo, potendo queste fare riferimento a delle variabili di ambiente, ad esempio per filtrare l'esercizio contabile o i permessi dell'utente, ha bisogno di una classe ISecurity che gliele fornisca. 
 La classe DataAccess espone una proprietà Security di tipo ISecurity e può essere interrogata o impostata in qualsiasi momento. 

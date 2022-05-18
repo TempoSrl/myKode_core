@@ -3657,6 +3657,8 @@ namespace mdl {
         public string ColumnNameList() {
             return QueryCreator.RealColumnNameList(this);
         }
+
+
         /// <summary>
         /// get a sorted array of rows 
         /// </summary>
