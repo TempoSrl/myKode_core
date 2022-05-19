@@ -169,3 +169,110 @@ verifica se t abbia delle righe modificate, non considerando le false modifiche.
 
 analogamente alla precedente, su un singolo DataRow
 
+
+
+## Join di enumerables
+
+	IEnumerable<Tuple<r1, r2>> Join<r1, r2>(this IEnumerable<r1> t1, IEnumerable<r2> t2, joinCondition2<r1, r2> joinFun)
+
+Questa estensione consente di effettuare il join di due enumerables e restituisce le tuple degli elementi dei due elementi in join che hanno sodisfatto la condizione di join. La condizione di join è una semplice funzione booleana che ha due elementi in input (uno per ogni enumerable considerato) e stabilisce se la coppia va considerata o meno.
+
+
+	IEnumerable<Tuple<r1, r2>> LeftJoin<r1, r2>(this IEnumerable<r1> t1, IEnumerable<r2> t2, joinCondition2<r1, r2> joinFun)
+
+Come la precedente, ma restituisce gli elementi di t1 ove non vengano trovati corrispondenti in t2 che sodisfino la condizione.
+
+I metodi precedenti sono disponibili anche con più di due enumerabili, nel qual caso la left join prende sempre i primi n-1 elementi anche se non c'è un match con l'ultimo enumerabile.
+
+	void _forEach<r>(this IEnumerable<r> collection, Action<r> operation)
+
+fornisce il metodo forEach su un generico enumerable
+
+	 void _forEach(this DataSet d, Action<DataTable> operation)
+
+fornisce un metodo forEach che itera su tutte le tabelle di un DataSet
+
+	IEnumerable<DataRelation> Enum(this DataRelationCollection rels)
+	IEnumerable<DataColumn> Enum(this DataColumnCollection cols)
+
+Rendono enumerabili le collezioni di DataRelation e DataColumn, per agevolare la programmazione funzionale.
+
+	 TR __do<TR>(this TR item, Action<TR> operation) 
+
+E' un'estensione che prende l'oggetto in a cui si applica, invoca una funzione su esso e restituisce l'oggetto stesso. Serve per agevolare la scrittura di sequenze di operazioni nella programmazione funzionale.
+
+	S[] Map<R, S>(this IEnumerable<R> collection, Func<R, S> mapFunc)
+
+Fornisce la primitiva map per gli enumerabili
+		
+		delegate void operateOnRowIndex<r>(r R, int i);
+		_forEach<TR>(this IEnumerable<TR> collection, operateOnRowIndex<TR> operation)
+
+fornisce la primitiva 	forEach per gli enumerabili, passando alla funzione invocata anche l'indice dell'elemento oltre che l'elemento stesso
+
+
+		IEnumerable<object>  Pick<TR>(this IEnumerable<TR> collection, string field)
+
+Da un'enumerabile estrae i valori di un campo ottenendo un nuovo enumerabile.
+
+
+
+		IEnumerable<TR> _Filter<TR>(this IEnumerable<TR> collection, Predicate<TR> filter) 
+
+Da un'enumerabile estrae solo gli elementi che sodisfano un certo criterio, restituendo un nuovo enumerabile.
+
+		IEnumerable<TR> _Reject<TR>(this IEnumerable<TR> collection, Predicate<TR> filter)
+
+Esattamente l'opposto del precedente, estrae  gli elementi che non sodisfano un certo criterio
+
+		TR _Find<TR>(this IEnumerable<TR> collection, Predicate<TR> filter) where TR:class
+
+Estrae il primo elemento che sodisfa un criterio, o null se non lo trova
+
+		IEnumerable<TR> _Tail<TR>(this IEnumerable<TR> collection) where TR : class
+
+Estrae tutti gli elementi di un IEnumerable tranne il primo
+
+		 IEnumerable<TR> _Initial<TR>(this IEnumerable<TR> collection) where TR : class
+
+Estrae tutti gli elementi di un IEnumerable tranne l'ultimo
+
+		
+		bool _Every<TR>(this IEnumerable<TR> collection, Predicate<TR> condition) where TR:class
+
+Stabilisce se tutti gli elementi di un IEnumerable sodisfano un criterio
+
+
+		bool _Some<TR>(this IEnumerable<TR> collection, Predicate<TR> condition) where TR : class
+
+Stabilisce se almeno un elemento di un IEnumerable sodisfa un criterio
+
+		delegate TR accumulate<TR, TS>(TR result, TS value);
+		TR _Reduce<TR,TS>(this IEnumerable<TS> collection, accumulate<TR,TS> accumulator, TR startValue )
+		TR _Reduce<TR>(this IEnumerable<TR> collection, accumulate<TR, TR> accumulator)
+
+Fornisce la primitiva reduce sugli enumerabili. Nel secondo caso il primo valore passato alla funzione accumulatore sarà il valore di default del tipo TR
+
+
+
+		void _IfExists<r>(this IEnumerable<r> collection, Predicate<r> condition, 
+                        Action<r> _then=null, Action _else=null) where r:class
+		void _IfNotExists<r>(this IEnumerable<r> collection, Predicate<r> condition,
+                   Action _then) where r : class
+		
+Se esiste/se non esiste un elemento della collezione che sodisfa un predicato, esegue un'azione specificata
+
+		
+		 object[] _Select(this object[] source,
+             params object[] expr         
+            )
+
+Dato un array di oggetti, calcola le espressioni passate, che possono contenere eventualmente degli operatori di raggruppamento, nel qual caso sarà effettuata una group by sulle espressioni non raggruppate.
+
+		object[] _SelectGroupBy(this object[] source,
+             MetaExpression[] expressions,
+            MetaExpression[] groupBy = null
+            )
+
+Dato un array di oggetti, calcola un insieme di espressioni raggruppando su un insieme di altre espressioni
+
