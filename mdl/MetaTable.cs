@@ -413,7 +413,7 @@ namespace mdl {
         /// <param name="rParent"></param>
         /// <param name="relationName"></param>
         /// <returns></returns>
-        public static DataRow[] getChildRows(this DataRow rParent, string relationName) {
+        public static DataRow[] getChildRows(this DataRow rParent, string relationName) {            
 	        var rel = rParent?.Table?.DataSet?.Relations[relationName];
 	        var iManager = rel?.ChildTable?.DataSet?.getIndexManager();
 	        return iManager?.getChildRows(rParent, rel) ?? rParent.GetChildRows(rel);

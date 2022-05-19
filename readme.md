@@ -6,7 +6,7 @@
 
 ## Cos'è
 
-MDL (acronimo di Meta Data Library) è un framework nato per velocizzare e rendere molto efficiente la scrittura di applicazioni rich-client javascript. Per la parte client esiste un progetto javascript che si basa su un backend che deve esporre una specifica interfaccia per l'accesso ai dati. 
+MDL (acronimo di myKode Library) è un framework nato per velocizzare e rendere molto efficiente la scrittura di applicazioni rich-client javascript. Per la parte client esiste un progetto javascript che si basa su un backend che deve esporre una specifica interfaccia per l'accesso ai dati. 
 Della parte backend sono state sviluppate due versioni distinte, una node-js ed una c#, che è il presente progetto.
 MDL non nasce per semplificare i programmini usa e getta, bensì progetti di grandezza media ed enterprise. Infatti per piccoli programmi non ha molto senso preoccuparsi di gestione della sicurezza avanzata, differenziare i layer, validare i dati a più livelli etc. Tuttavia anche per piccoli programmi può essere molto utile
 
