@@ -161,9 +161,9 @@ La funzione getBoolean(o, env) è simile ma restituisce un booleano anziché un 
     string toSql(QueryHelper q, dynamic env = null)
 
 Il metodo toSql converte la MetaExpression in una stringa che possa essere inclusa in una istruzione SQL. 
-Poiché a seconda del dialetto SQL del database utilizzato, questa potrebbe non andare bene per tutti, è utilizzata, in questa fase, una classe QueryHelper che è diversa a seconda del tipo di database.
+Poiché a seconda del dialetto SQL del database utilizzato, questa potrebbe non andare bene per tutti, è utilizzata, in questa fase, una classe [QueryHelper](QueryHelper.md) che è diversa a seconda del tipo di database.
 E' l'interfaccia IDbDriver che espone una proprietà di tipo QueryHelper. Senza entrare nei dettagli, esiste una classe che espone l'interfaccia IDbDriver per ogni tipo di database (SqlServer, MySql, ...) e quindi a seconda del database utilizzato, si otterrà una stringa potenzialmente diversa.
-Questo spiega però perché c'è la necessità di questo parametro nel metodo toSql, infatti la MetaExpression è indipendente dal Database utilizzato. Ad ogni modo, il programmatore di solito non avrà bisogno di chiamare toSql, poiché a questo provvedono direttamente le altre classi di livello più altro (GetData, PostData, DataAccess). 
+Questo spiega però perché c'è la necessità di questo parametro nel metodo toSql, infatti la MetaExpression è indipendente dal Database utilizzato. Ad ogni modo, il programmatore di solito non avrà bisogno di chiamare toSql, poiché a questo provvedono direttamente le altre classi di livello più alto (GetData, PostData, DataAccess). 
 La necessità potrebbe subentrare solo se si intende inserire un filtro in una istruzione sql scritta a mano e si volesse evitare di preoccuparsi di quotare correttamnte le costanti presenti nel filtro.
 
 

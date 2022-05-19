@@ -18,13 +18,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		..\DataAccess.md = ..\DataAccess.md
 		..\DbDescriptor.md = ..\DbDescriptor.md
+		..\DbDriver.md = ..\DbDriver.md
 		..\GetData.md = ..\GetData.md
-		..\IDBDriverDispatcher.md = ..\IDBDriverDispatcher.md
 		..\MetaData.md = ..\MetaData.md
 		..\MetaExpression.md = ..\MetaExpression.md
 		..\MetaTable.md = ..\MetaTable.md
 		..\PostData.md = ..\PostData.md
-		..\QueryHelpper.md = ..\QueryHelpper.md
+		..\QueryHelper.md = ..\QueryHelper.md
 		..\readme.md = ..\readme.md
 		..\Security.md = ..\Security.md
 	EndProjectSection

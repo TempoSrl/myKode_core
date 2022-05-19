@@ -106,7 +106,7 @@ E' possibile aggiungere ai DataColumn di un DataTable delle colonne che non esis
 
 In particolare, distinguiamo tre categorie di DataColumn:
 1) DataColumn con una [MetaExpression](MetaExpression.md) associata
-2) DataColumn con una espressione stringa di tipo "tabella.campo" associata
+2) DataColumn con una espressione stringa di tipo "tabella.campo" associata "table1.field1"
 3) DataColumn che hanno la proprietà Expression valorizzata o il cui ColumnName inizia con ! (punto esclamativo)
 
 

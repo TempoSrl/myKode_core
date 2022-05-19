@@ -40,9 +40,29 @@ namespace mdl {
 		Task<DataTable> TableBySql(string sql, DataTable table = null, int timeout = -1);
 		Task<DataSet> MultipleTableBySql(string sql, List<string> destTables, int timeout = -1);
 
+		/// <summary>
+		/// Executes a sql command and get the result tables in a DataSet
+		/// </summary>
+		/// <param name="d"></param>
+		/// <param name="sql"></param>
+		/// <param name="timeout"></param>
+		/// <returns></returns>
 		Task SqlIntoDataSet(DataSet d, string sql, int timeout = -1);
 
+		/// <summary>
+		/// Reads a single value
+		/// </summary>
+		/// <param name="sql"></param>
+		/// <param name="timeout"></param>
+		/// <returns></returns>
 		Task<object> ExecuteScalar(string sql,  int timeout = -1);
+
+		/// <summary>
+		/// Execute a command that eventually modifies db
+		/// </summary>
+		/// <param name="sql"></param>
+		/// <param name="timeout"></param>
+		/// <returns>affected rows</returns>
 		Task<int> ExecuteNonQuery(string sql, int timeout = -1);
 
 		Task<IDbTransaction> BeginTransaction(IsolationLevel level);

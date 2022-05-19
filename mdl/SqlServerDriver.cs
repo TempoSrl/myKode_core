@@ -168,10 +168,8 @@ namespace mdl {
         }
 
 
-       
-
         /// <summary>
-        /// 
+        /// Executes a sql command and get the result tables in a DataSet
         /// </summary>
         /// <param name="d"></param>
         /// <param name="sql"></param>
@@ -654,12 +652,17 @@ namespace mdl {
 
 
 
-
-        public virtual string SchemaObject(string schema, string objectName) {
-            if (String.IsNullOrEmpty(schema)) return objectName;
-            schema = "["+schema+"]";
-            if (!objectName.StartsWith(schema + ".")) {
-                return schema+"."+ objectName;
+        /// <summary>
+        /// Returns a reference to the object named objectName in the schema 
+        /// </summary>
+        /// <param name="schema"></param>
+        /// <param name="objectName"></param>
+        /// <returns></returns>
+        public virtual string SchemaObject(string schemaName, string objectName) {
+            if (String.IsNullOrEmpty(schemaName)) return objectName;
+            schemaName = $"[{schemaName}]";
+            if (!objectName.StartsWith(schemaName + ".")) {
+                return schemaName + "."+ objectName;
 			}
             return objectName;
 		}
