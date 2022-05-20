@@ -107,7 +107,7 @@ namespace mdl {
         protected CQueryHelper QHC = MetaFactory.factory.getSingleton<CQueryHelper>();
 
 
-        private IDBDriver privateConnection = null;
+        private IDbDriver privateConnection = null;
 
 
         IDataAccess mainConnection = null;
@@ -115,7 +115,7 @@ namespace mdl {
         /// <summary>
         /// Sql connection used for physical connection. Should not be generally used from application classes
         /// </summary>
-        public virtual IDBDriver Driver {
+        public virtual IDbDriver Driver {
             get {
                 if (mainConnection != null)
                     return mainConnection.Driver;
@@ -267,7 +267,7 @@ namespace mdl {
         private IDbDescriptor descriptor;
 
         public virtual IDbDescriptor Descriptor { get { return descriptor;} }
-        private IDBDriverDispatcher dispatcher { get { return Descriptor?.Dispatcher; } }
+        private IDbDriverDispatcher dispatcher { get { return Descriptor?.Dispatcher; } }
 
         #region Constructors (with or without SSPI)
 

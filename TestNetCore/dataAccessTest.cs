@@ -365,8 +365,8 @@ namespace TestNetCore {
     [TestFixture]
     class mockDataAccessTest {
         public static DataAccess Conn;
-        public static Mock<IDBDriver> mDbDriver;
-        public static Mock<IDBDriverDispatcher> mDriverDisp;
+        public static Mock<IDbDriver> mDbDriver;
+        public static Mock<IDbDriverDispatcher> mDriverDisp;
         public static Mock<DataAccess> mDA;
         public static Mock<IDbDescriptor> mDB;
 
@@ -374,9 +374,9 @@ namespace TestNetCore {
         public static void testInit() {
             //Conn = MockUtils.getAllLocalDataAccess("utente1");
             //mockDA = MockUtils.MockDataAccess(Conn.Descriptor);
-            mDbDriver = new Mock<IDBDriver>();
+            mDbDriver = new Mock<IDbDriver>();
 
-            mDriverDisp = new Mock<IDBDriverDispatcher>();
+            mDriverDisp = new Mock<IDbDriverDispatcher>();
             mDriverDisp.Setup(x => x.GetConnection()).Returns(
                 () => {
                     Console.WriteLine(mDbDriver.Object.ToString());

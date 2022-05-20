@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace mdl {
 
-	public class SqlServerDriverDispatcher :IDBDriverDispatcher {
+	public class SqlServerDriverDispatcher :IDbDriverDispatcher {
 		public string DSN { get; set; }
 		public string Server { get;  }
 		public string Database { get; }
@@ -79,7 +79,7 @@ namespace mdl {
                ";Connection Timeout=300;";
         }
 
-        public virtual IDBDriver GetConnection() {            
+        public virtual IDbDriver GetConnection() {            
             return new SqlServerDriver(new SqlConnection(getConnectionString()), Database);            
         }
 
@@ -88,7 +88,7 @@ namespace mdl {
 
 
 
-	public class SqlServerDriver :IDBDriver {
+	public class SqlServerDriver :IDbDriver {
         SqlTransaction transaction;
         bool arithAborthSet = false;
         string databaseName;

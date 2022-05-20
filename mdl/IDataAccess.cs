@@ -69,7 +69,7 @@ namespace mdl {
     /// </summary>
     public interface IDataAccess:ITransactionManagement {
 
-        IDBDriver Driver { get; set; }
+        IDbDriver Driver { get; set; }
         IDbDescriptor Descriptor { get; }
 
         /// <summary>

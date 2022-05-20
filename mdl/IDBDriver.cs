@@ -6,11 +6,11 @@ using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace mdl {
-	public interface IDBDriverDispatcher {
-		IDBDriver GetConnection();
+	public interface IDbDriverDispatcher {
+		IDbDriver GetConnection();
 	}
 
-	public interface IDBDriver :IDisposable{
+	public interface IDbDriver :IDisposable{
 		
 		int defaultTimeout { get; set; }
 

@@ -9,7 +9,7 @@ using System.Data.Common;
 
 namespace mdl {
     public interface IDbManager {
-        void createDescriptor(string dbCode, IDBDriverDispatcher driverDispatcher);
+        void createDescriptor(string dbCode, IDbDriverDispatcher driverDispatcher);
         IDbDescriptor getDescriptor(string dbCode);
     }
 
@@ -48,7 +48,7 @@ namespace mdl {
 		/// <returns></returns>
         Dictionary<string, dbstructure> GetStructures();
 
-        IDBDriverDispatcher Dispatcher { get; }
+        IDbDriverDispatcher Dispatcher { get; }
 
         /// <summary>
         /// Reads table structure of a list of tables (Has only effect if UseCustomObject is true)
@@ -82,7 +82,7 @@ namespace mdl {
         public static DbManager instance = new DbManager(); 
         Dictionary<string, IDbDescriptor> descriptors = new Dictionary<string, IDbDescriptor>();
         
-        public virtual void createDescriptor(string dbCode, IDBDriverDispatcher dispatcher) {
+        public virtual void createDescriptor(string dbCode, IDbDriverDispatcher dispatcher) {
             descriptors[dbCode] = new DbDescriptor(dispatcher, dbCode);
         }
 
@@ -122,9 +122,9 @@ namespace mdl {
         public bool ManagedByDB { get;  set; }  = false;
 
 
-        public IDBDriverDispatcher Dispatcher { get; set; }
+        public IDbDriverDispatcher Dispatcher { get; set; }
 
-        public DbDescriptor(IDBDriverDispatcher driverDispatcher, string dbCode) {
+        public DbDescriptor(IDbDriverDispatcher driverDispatcher, string dbCode) {
             this.Dispatcher = driverDispatcher;
             this.dbCode = dbCode;
             Reset();

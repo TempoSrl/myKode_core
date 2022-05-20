@@ -22,25 +22,50 @@ Pertanto all'avvio dell'applicazione si associa ad ogni db gestito un codice, ed
 
 ```mermaid
 
-
 classDiagram
+
+
+    class DbDescriptor     
+    DbDescriptor: dbCode
+    DbDescriptor: Dispatcher
+    DbDescriptor: DetectStructure(tableName, conn)
+    DbDescriptor: GetStructure(tableName, conn)
+
+    class IDBDriverDispatcher
+    IDBDriverDispatcher: GetConnection() IDbDriver
+
+    DbDescriptor --> "1" IDBDriverDispatcher : exposes
+
     class DbManager
     DbManager : createDescriptor(string dbCode, IDBDriverDispatcher d)
-    DbManager : DbDescriptor getDescriptor(string dbCode)
+    DbManager :  getDescriptor(string dbCode) DbDescriptor
   
-    class IDBDriverDispatcher
-    IDBDriverDispatcher: IDBDriver GetConnection()
+    DbManager --> "1*" DbDescriptor : Has track of all
+    
+    IDBDriverDispatcher --> "many" IDbDriver : creates connections to
 
 
-    class DbDescriptor
+    class IDbDriver
+    IDbDriver: QueryHelper QH
+    IDbDriver: Open()
+    IDbDriver: Close()
+    IDbDriver: ExecuteScalar() object
+    IDbDriver: ExecuteNonQuery() int
+    IDbDriver: TableBySql() DataTable
+    IDbDriver: MultipleTableBySql() DataSet
 
-    class IDBDriver
-    IDBDriver: QueryHelper QH
-    IDBDriver: Open()
-    IDBDriver: Close()
-    IDBDriver: ExecuteScalar()
-    IDBDriver: ExecuteNonQuery()
-    IDBDriver: TableBySql()
+    class DataAccess
+    DataAccess: Driver
+    DataAccess: DataAccess(descriptor)
+
+    DbDescriptor --> DataAccess : is needed to create a
+    DataAccess --> "1" IDbDriver : uses 
+
+    class QueryHelper 
+
+    IDbDriver --> QueryHelper : exposes
+    DataAccess --> QueryHelper : uses
+    DataAccess --> IDBDriverDispatcher : uses
 
 
 
@@ -88,7 +113,7 @@ La proprietà Dispatcher della classe DbDescriptor è di tipo DBDriverDispatcher
 
 Il motivo per cui la classe DataAccess e la classe DbDriver sono distinte è evitare di dover derivare una classe da DataAccess tutte le volte che si vuole implementare il collegamento ad un nuovo tipo di database, oltre a isolare in una specifica classe tutte le conoscenze sul dialetto SQL e le tabelle e stored procedure di sistema di un determinato tipo di database o versione di esso (SqlServer, Oracle, etc).
 
-Quindi supponendo di voler usare un Db di tipo diverso da quelli forniti, è sufficiente creare una classe che implementi l'interfaccia IDbDriver e corredarla di una classe IDBDriverDispatcher, con gran beneficio per i tempi di sviluppo e di test.
+Quindi supponendo di voler usare un Db di tipo diverso da quelli forniti, è sufficiente creare una classe che implementi l'interfaccia IDbDriver e corredarla di una classe IDbDriverDispatcher, con gran beneficio per i tempi di sviluppo e di test.
 
 ## DbManager "singleton"
 A livello di server esiste una classe DbDescriptor per ogni database. La classe DbManager, che è un singleton, tiene 
@@ -97,7 +122,7 @@ La classe DbManager ha il solo scopo di consentire alla procedura di avvio dell'
 con il metodo di DbDescriptor:
 
 `
-    void createDescriptor(string dbCode, IDBDriverDispatcher dispatcher)
+    void createDescriptor(string dbCode, IDbDriverDispatcher dispatcher)
 `
 
 mentre al momento dell'utilizzo sarà richiamato il metodo
@@ -107,11 +132,11 @@ mentre al momento dell'utilizzo sarà richiamato il metodo
 `
 che restituisce il IDbDescriptor associato ad un codice.
 
-Leggendo l'interfaccia del metodo createDescriptor si osserva che il secondo parametro è di tipo IDBDriverDispatcher. 
+Leggendo l'interfaccia del metodo createDescriptor si osserva che il secondo parametro è di tipo IDbDriverDispatcher. 
 Tale interfaccia ha un solo metodo:
 
 `
-	public interface IDBDriverDispatcher {
+	public interface IDbDriverDispatcher {
 			IDBDriver GetConnection();
 	}
 `
