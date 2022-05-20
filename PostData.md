@@ -26,6 +26,38 @@ ProcedureMessageCollection è una collezione di ProcedureMessage, che è una cla
 Tuttavia nella sua versione base PostData espone solo i messaggi dovuti a errori di database che quindi sono sempre non ignorabili, ad esempio dovuti a violazioni di chiave o vincoli sui valori null.
 
 
+```mermaid
+
+
+    class DataAccess
+    DataAccess: Security  ISecurity
+    DataAccess: Driver IDbDriver
+    DataAccess: GetQueryHelper() QueryHelper 
+    DataAccess: DataAccess(descriptor)
+    
+    
+    class PostData
+    PostData: InitClass(ds, conn)
+    PostData: SaveData ()
+
+    DataAccess --> QueryHelper: exposes
+
+
+    PostData --> QueryHelper: uses
+    PostData --> ISecurity : uses
+    PostData --> DataAccess: uses
+    
+    class ISecurity
+    ISecurity: GetSys(envVarName)
+    ISecurity: GetUsr(envVarName)
+    ISecurity: CanSelect(R) bool
+    ISecurity: DeleteAllUnselectable(T)
+    ISecurity: SelectCondition( tablename) MetaExpression
+    ISecurity: canPost(R)
+
+
+```
+
 
 
 ## Campi ad autoincremento
