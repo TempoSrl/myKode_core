@@ -14,6 +14,10 @@ namespace mdl {
     /// </summary>
     public class SqlServerQueryHelper : QueryHelper {
 
+        public override string ReturnValueIfNoRowAffected(int value) {
+            return $"if (@@ROWCOUNT=0) BEGIN select {value}; RETURN; END;";
+        }
+
         public override string Max(string expr) {
             return $"max({expr})";
         }
@@ -1932,7 +1936,8 @@ namespace mdl {
             return res;
         }
 
-    }
+		public override string ReturnValueIfNoRowAffected(int value) => throw new NotImplementedException();
+	}
 
     /// <summary>
     /// Abstract class for query making
@@ -2470,7 +2475,7 @@ namespace mdl {
         public abstract string ConvertToVarchar(string expr, int len);
         public abstract string ConvertToInt(string expr);
 
-
+        public abstract string ReturnValueIfNoRowAffected(int value);
 
         /// <summary>
 		/// Merges two filters (AND) without throwing exception if some or 

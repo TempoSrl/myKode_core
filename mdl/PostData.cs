@@ -1937,7 +1937,7 @@ namespace mdl {
             /// </summary>
             public string LastError { get; set; }
 
-
+            QueryHelper qhs;
 
             #region Row Changes Sorting And Classifying
 
@@ -2085,6 +2085,7 @@ namespace mdl {
             public SingleDatasetPost(DataSet DS, IDataAccess Conn) {
 	            this.DS = DS;
 	            privateConn = Conn;       //every   singleDatasetPost has his connection
+                qhs = Conn.GetQueryHelper();
                 user = Conn.Security.User;
             }
 
@@ -2263,7 +2264,7 @@ namespace mdl {
 
                     string cmd = getPhysicalPostCommand(r.DR);
                     sb.AppendLine(cmd+";");
-                    sb.AppendLine($"if (@@ROWCOUNT=0) BEGIN select {rowindex}; RETURN; END;");
+                    sb.AppendLine(qhs.ReturnValueIfNoRowAffected(rowindex));//$"if (@@ROWCOUNT=0) BEGIN select {rowindex}; RETURN; END;"); ;;
                     batchedRows.Add(r);
 
                     if (sb.Length > 40000 || r.HasCustomAutoFields) {
