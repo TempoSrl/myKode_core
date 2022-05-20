@@ -28,6 +28,9 @@ Tuttavia nella sua versione base PostData espone solo i messaggi dovuti a errori
 
 ```mermaid
 
+classDiagram
+
+
     class DataAccess
     DataAccess: Security  ISecurity
     DataAccess: Driver IDbDriver
