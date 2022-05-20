@@ -1,14 +1,11 @@
 ﻿# DbDescriptor e DbManager
 Lo scenario di riferimento è un'applicazione che si può collegare, a seconda della richiesta, a uno o più database, non necessariamente tutti dello stesso tipo e non necessariamente tutti aventi la stessa struttura di tabelle e campi.
 
-Una classe di tipo DbDescriptor conosce la struttura di un database, nel senso di quali tabelle e viste contiene, quali
-campi ha ogni tabella e di che tipo e quali sono le chiavi primarie. L'utilità di queste informazioni è ottimizzare
-le operazioni di lettura potendo elencare i campi da leggere e non ricorrere alle select * from...
+Una classe di tipo DbDescriptor conosce la struttura di un database, nel senso di quali tabelle e viste contiene, quali campi ha ogni tabella e di che tipo e quali sono le chiavi primarie. L'utilità di queste informazioni è ottimizzare le operazioni di lettura potendo elencare i campi da leggere e non ricorrere alle select * from...
 Inoltre consente di creare al volo DataTable che replicano la struttura delle tabelle del database.
 
 Essendo la struttura del database una sola, ad ogni database è associata una sola istanza della classe DbDescriptor,
-cosi da ottimizzare l'occupazione di memoria ed il numero di letture. Pertanto questa è condivisa tra tutte le
-connessioni che vengono effettuate allo stesso database.
+cosi da ottimizzare l'occupazione di memoria ed il numero di letture. Pertanto questa è condivisa tra tutte le connessioni che vengono effettuate allo stesso database.
 
 Proprio per questo motivi, è la classe DbDStructure che espone la proprietà Dispatcher, che a sua volta ha il metodo GetConnection() da cui si ottengono le istanze di DbDriver, la classe che si occupa di inviare i comandi fisici al db nel suo dialetto SQL (SqlServer/Oracle/MySql/...) nonché le sue tabelle di sistema e dettagli tecnici.
 
@@ -16,15 +13,41 @@ Il numero di classi coinvolte potrebbe sembrare eccessivo tuttavia è stato nece
 
 - DbDescriptor conosce la struttura delle tabelle di un database e come ottenere un DbDriver
 - DbManager serve ad ottenere un DbDescriptor a partire dal codice alfanumerico assegnato in avvio dell'applicazione
-- DbDriver conosce le particolarità tecniche di ogni tipo di database, o meglio, esiste una classe che implementa l'interfaccia 
-  IDbDriver per ogni tipo di database, e qualora non esista, non è difficile crearne una
-- DataAccess serve ad effettuare operazioni primitive sul database, con comandi che ne nascondono il dialetto SQL utilizzato, ma può anche essere
-  utilizzata per inviare comandi SQL "da codice"
+- DbDriver conosce le particolarità tecniche di ogni tipo di database, o meglio, esiste una classe che implementa l'interfaccia IDbDriver per ogni tipo di database, e qualora non esista, non è difficile crearne una
+- DataAccess serve ad effettuare operazioni primitive sul database, con comandi che ne nascondono il dialetto SQL utilizzato, ma può anche essere utilizzata per inviare comandi SQL "da codice". DataAccess è la classe con cui hanno a che fare le classi di livelli di astrazione maggiori (GetData, PostData,...)
 
 
 Pertanto all'avvio dell'applicazione si associa ad ogni db gestito un codice, ed il driver ad esso associato (SqlServer/Oracle/MySql/...) e poi in ogni richiesta del client sarà richiesto al DbManager (che è un *singleton*) una connessione fisica al db (IDbDriver).
 
-I metodi dell'applicazione però solitamente non usano istanze delle classi IDbDriver, ma la classe DataAccess, che è classe generica di accesso al db di MDL. Tale classe nel costruttore richiede un DbDescriptor. O ancora più frequentemente, non usano neanche DataAccess bensì le classi di più alto livello GetData (per leggere interi DataSet) o PostData (per scrivere un DataSet su db in blocco)
+
+```mermaid
+
+
+classDiagram
+    class DbManager
+    DbManager : createDescriptor(string dbCode, IDBDriverDispatcher d)
+    DbManager : DbDescriptor getDescriptor(string dbCode)
+  
+    class IDBDriverDispatcher
+    IDBDriverDispatcher: IDBDriver GetConnection()
+
+
+    class DbDescriptor
+
+    class IDBDriver
+    IDBDriver: QueryHelper QH
+    IDBDriver: Open()
+    IDBDriver: Close()
+    IDBDriver: ExecuteScalar()
+    IDBDriver: ExecuteNonQuery()
+    IDBDriver: TableBySql()
+
+
+
+```
+
+
+I metodi dell'applicazione però solitamente non usano istanze delle classi IDbDriver, ma la classe DataAccess, che è la classe generica di accesso al db di MDL. Tale classe nel costruttore richiede un DbDescriptor. O ancora più frequentemente, non usano neanche DataAccess bensì le classi di più alto livello GetData (per leggere interi DataSet) o PostData (per scrivere un DataSet su db in blocco)
 
 Il metodo principale dell'interfaccia IDbDescriptor è GetStructure:
 

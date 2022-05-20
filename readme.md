@@ -73,6 +73,7 @@ Quando sono letti i dati in un Dataset, le righe di tabelle entità e subentità n
 In fase di scrittura di un Dataset, come vedremo, la classe PostData effettua gli inserimenti/modifiche/cancellazioni seguendo un ordine dettato dal tipo di modifiche richieste e dalla struttura del DataSet, in modo automatico.
 
 ## Accesso al database db-agnostic
+
 MDL fornisce delle classi che nascondono la necessità di coinvolgere i dettagli del dialetto SQL utilizzato nel codice applicativo, isolandolo in specifici driver. L'accesso è asincrono per tutti i database così da avere un'interfaccia uniforme. Ove il driver fisico non supporti l'accesso asincrono, l'esecuzione avverrà tuttavia in modo sincrono.
 Le due classi principalmente usate per la gestione dei dati ad alto livello sono [PostData](PostData.md) e [GetData](GetData.md), rispettivamente per salvare tutti i dati presenti in un database e per riempirlo a partire da una o più righe della tabella principale.
 E' presente tuttavia anche la classe *[Data Access](DataAccess.md)* in cui sono presenti metodi per accedere ad un database in modo più granulare e customizzato, tra cui:
