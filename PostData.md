@@ -28,7 +28,6 @@ Tuttavia nella sua versione base PostData espone solo i messaggi dovuti a errori
 
 ```mermaid
 
-
     class DataAccess
     DataAccess: Security  ISecurity
     DataAccess: Driver IDbDriver
@@ -40,9 +39,12 @@ Tuttavia nella sua versione base PostData espone solo i messaggi dovuti a errori
     PostData: InitClass(ds, conn)
     PostData: SaveData ()
 
+    class QueryHelper
+    
     DataAccess --> QueryHelper: exposes
 
-
+    
+    
     PostData --> QueryHelper: uses
     PostData --> ISecurity : uses
     PostData --> DataAccess: uses
