@@ -6,6 +6,57 @@ Poiché vi possono essere più istanze di un DataAccess, tipicamente uno per ogn
 
 Tramite DataAccess è possibile accedere, con un'interfaccia uniforme, a qualsiasi tipo di database, con interfacce asincrone per ogni operazione. 
 
+```mermaid
+
+classDiagram
+
+
+
+
+    class IDbDriver
+    IDbDriver: QueryHelper QH
+    IDbDriver: Open()
+    IDbDriver: Close()
+    IDbDriver: ExecuteScalar() object
+    IDbDriver: ExecuteNonQuery() int
+    IDbDriver: TableBySql() DataTable
+    IDbDriver: MultipleTableBySql() DataSet
+
+    class DataAccess
+    DataAccess: Security  ISecurity
+    DataAccess: Driver IDbDriver
+    DataAccess: DataAccess(descriptor)
+    
+    DataAccess --> "1" IDbDriver : uses 
+
+    class QueryHelper 
+
+    IDbDriver --> QueryHelper : exposes
+    DataAccess --> QueryHelper : uses
+    IDBDriverDispatcher --> DataAccess  : gives driver
+
+    class ISecurity
+    ISecurity: GetSys(envVarName)
+    ISecurity: GetUsr(envVarName)
+    ISecurity: CanSelect(R) bool
+    ISecurity: DeleteAllUnselectable(T)
+    ISecurity: SelectCondition( tablename) MetaExpression
+
+
+    class MetaExpression
+    MetaExpression: sys()
+    MetaExpression: usr()
+
+    DataAccess --> MetaExpression : uses
+    DataAccess --> ISecurity : is linked to
+    MetaExpression --> ISecurity : reads
+
+
+
+
+```
+
+
 ## Modalità persistente e non persistente
 E' possibile gestire la connessione in due modi principali, a seconda di cosa si ritenga più efficiente nel proprio caso d'uso:
 - persistente (valore di default), in cui la connessione fisica al db è stabilita all'inizio della richiesta e rilasciata alla fine della richiesta. In questo caso ove ci sia una serie di accessi al db questi ne risultano notevolmente accelerati. In questa modalità è possibile iniziare e concludere una transazione senza preoccuparsi di dover aprire e chiudere la connessione.
@@ -18,6 +69,7 @@ Se le richieste del client sono esaurite in poco tempo, o una richiesta comporta
 Tuttavia, se nell'ambito di una connessione persistente si effettuano delle open/close annidate, la connessione rimane comunque aperta sin quando non è richiamato il metodo Destroy della classe, esplicitamente o nella G.C.
 
 In ambo i casi, quindi, è possibile operare, nell'applicazione in modo identico, ossia come se si operasse in modo non persistente, poiché le open/close aggiuntive necessarie per la gestione non persistente (per gestire le transazioni) non avranno effetto sulle connessioni persistenti. Questo consentirà di stabilire se una connessione dovrà essere persistente o meno solo al momento in cui verrà creata, lasciando tutto il resto del programma invariato, accertandosi però di chiamare esplicitamente la Destroy della connessione al completamenteo della richiesta, per evitare che la sua invocazione sia demandata alla Garbage Collection.
+
 
 
 # Principali funzioni

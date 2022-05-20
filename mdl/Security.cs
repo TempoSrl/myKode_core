@@ -143,7 +143,7 @@ namespace mdl {
        
 
         /// <summary>
-        /// 
+        /// Clears entire environment
         /// </summary>
         void Clear();
 

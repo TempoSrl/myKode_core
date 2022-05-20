@@ -40,7 +40,7 @@ classDiagram
     DbManager : createDescriptor(string dbCode, IDBDriverDispatcher d)
     DbManager :  getDescriptor(string dbCode) DbDescriptor
   
-    DbManager --> "1*" DbDescriptor : Has track of all
+    DbManager --> "1*" DbDescriptor : has track of all
     
     IDBDriverDispatcher --> "many" IDbDriver : creates connections to
 
@@ -65,7 +65,7 @@ classDiagram
 
     IDbDriver --> QueryHelper : exposes
     DataAccess --> QueryHelper : uses
-    DataAccess --> IDBDriverDispatcher : uses
+    IDBDriverDispatcher --> DataAccess  : gives driver
 
 
 
