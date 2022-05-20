@@ -36,6 +36,65 @@ E' possibile aggiungere comportamenti custom in diversi modi:
 - derivando opportuni metodi delle classi del framework
 
 
+```mermaid
+
+
+classDiagram
+
+
+
+    class IDbDriver
+    IDbDriver: QueryHelper QH
+    IDbDriver: Open()
+    IDbDriver: Close()
+    IDbDriver: ExecuteScalar() object
+    IDbDriver: ExecuteNonQuery() int
+    IDbDriver: TableBySql() DataTable
+    IDbDriver: MultipleTableBySql() DataSet
+
+    class DataAccess
+    DataAccess: Security  ISecurity
+    DataAccess: Driver IDbDriver
+    DataAccess: DataAccess(descriptor)
+    
+    DataAccess --> "1" IDbDriver : uses 
+
+
+    IDBDriverDispatcher --> DataAccess  : gives driver
+
+    class ISecurity
+    ISecurity: GetSys(envVarName)
+    ISecurity: GetUsr(envVarName)
+    ISecurity: CanSelect(R) bool
+    ISecurity: DeleteAllUnselectable(T)
+    ISecurity: SelectCondition( tablename) MetaExpression
+    ISecurity: canPost(R)
+
+    DataAccess --> ISecurity : uses
+
+    class GetData
+    GetData: GetPrimaryTable(filter)
+    GetData: SearchByKey(Row)
+    GetData: ClearTables()
+    GetData: ReadCached()
+    GetData: StartFrom()
+    GetData: Get(onlyPeripherals, oneoRow)
+
+
+
+    GetData --> DataAccess: uses
+
+    class PostData
+    PostData: InitClass(ds, conn)
+    PostData: SaveData ()
+
+
+    PostData --> DataAccess: uses
+
+
+```
+
+
 
 ## Le assunzioni principali
 MDL presume che in memoria i dati vengano mantenuti in DataSet non tipizzati o in alternativa tipizzati in cui il generatore di codice è un tool fornito a corredo (HDSGene), che fornisce un codice molto efficiente e che usa le classi derivate da MetaTable invece che da DataTable. L'uso di tale tool è opzionale.
