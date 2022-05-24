@@ -28,8 +28,6 @@ Tuttavia nella sua versione base PostData espone solo i messaggi dovuti a errori
 
 ```mermaid
 
-classDiagram
-
 
     class DataAccess
     DataAccess: Security  ISecurity
@@ -42,12 +40,9 @@ classDiagram
     PostData: InitClass(ds, conn)
     PostData: SaveData ()
 
-    class QueryHelper
-    
     DataAccess --> QueryHelper: exposes
 
-    
-    
+
     PostData --> QueryHelper: uses
     PostData --> ISecurity : uses
     PostData --> DataAccess: uses

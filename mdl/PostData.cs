@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using q = mdl.MetaExpression;
 //#pragma warning disable IDE1006 // Naming Styles
-//using System.EnterpriseServices;
 using static mdl.Metaprofiler;
 
 namespace mdl {
@@ -473,15 +472,15 @@ namespace mdl {
                     if (C.ExtendedProperties[SelectorMask] != null) {
                         if (DR[C.ColumnName] == DBNull.Value) {
                             //sel = QH.AppAnd(sel, QH.IsNull(C.ColumnName)); 
-                            clauses.Append(q.isNull(C.ColumnName));
+                            clauses.Add(q.isNull(C.ColumnName));
                             continue;
                         }
                         var mask = (ulong) C.ExtendedProperties[SelectorMask] ;
                         var val = Convert.ToUInt64( DR[C.ColumnName]);
-                        clauses.Append(q.cmpMask(C.ColumnName,mask,val)); //sel = QH.AppAnd(sel,QH.CmpMask(C.ColumnName,mask,val));
+                        clauses.Add(q.cmpMask(C.ColumnName,mask,val)); //sel = QH.AppAnd(sel,QH.CmpMask(C.ColumnName,mask,val));
                     }
                     else {
-                        clauses.Append(q.eq(C.ColumnName, DR[C.ColumnName]));//sel = QH.AppAnd(sel,QH.CmpEq(C.ColumnName,DR[C.ColumnName]));
+                        clauses.Add(q.eq(C.ColumnName, DR[C.ColumnName]));//sel = QH.AppAnd(sel,QH.CmpEq(C.ColumnName,DR[C.ColumnName]));
                     }
                 }
             }
@@ -2130,7 +2129,7 @@ namespace mdl {
             }
 
             /// <summary>
-            /// Evalueates autoincrement values, completes the row to be changed with createuser,createtimestamp,
+            /// Evaluates autoincrement values, completes the row to be changed with createuser,createtimestamp,
             /// lastmoduser, lastmodtimestamp fields, depending on the operation type
             ///  and eventually calls CalculateFields for each DataRow involved.
             ///  This must be done OUTSIDE the transaction.
@@ -2675,19 +2674,15 @@ namespace mdl {
             }
         }
 
+        // ex do_all_postcheck
         async Task<ProcedureMessageCollection> getPostChecks() {
-	        var handle = StartTimer("do_all_postcheck");
             var res = GetEmptyMessageCollection();
             foreach (var p in allPost) {
                 var thisRes = await p.GetPostChecks(ignoredMessages);
                 res.Add(thisRes);
             }
-            StopTimer(handle);
             return res;
         }
-
-        
-
 
         async Task getAllJournal() {
             foreach (var p in allPost) {

@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using static mdl.Metaprofiler;
-using System.Collections;
 using System.Linq;
-using mdl_utils;
 using q  = mdl.MetaExpression;
-using System.Threading.Tasks;
 
 namespace mdl {
 
@@ -595,7 +592,7 @@ namespace mdl {
         /// <param name="TDest"></param>
         /// <param name="RSource"></param>
         /// <returns></returns>
-        static bool xVerifyChangeChilds(DataTable tDest, DataRow rSource) {
+        public static bool xVerifyChangeChilds(DataTable tDest, DataRow rSource) {
             DataTable tSource = rSource.Table;
             //if (RSource.RowState != DataRowState.Unchanged) return true;
             if (xVerifyRowChange(tDest, rSource)) return true;

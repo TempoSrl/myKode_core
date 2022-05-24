@@ -13,12 +13,9 @@ using q = mdl.MetaExpression;
 using static mdl.IndexManager;
 using static mdl.Metaprofiler;
 
-using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Immutable;
-using System.Reflection;
-using System.Reflection.PortableExecutable;
 using Microsoft.CodeAnalysis;
-//using Roslyn.Utilities;
+
 
 #pragma warning disable IDE1006 // Type or member is obsolete
 

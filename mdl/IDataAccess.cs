@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-//using System.Data.SqlClient;
 using System.Threading.Tasks;
 using q = mdl.MetaExpression;
 #pragma warning disable IDE1006 // Naming Styles
@@ -205,6 +204,7 @@ namespace mdl {
         /// <param name="tableName"></param>
         Task ReadStructures(params string[] tableName);
 
+        Task ReadStructures(DataSet d);
 
 
         /// <summary>
@@ -271,8 +271,8 @@ namespace mdl {
 
         #region MetaData informations management
 
-        public void SetLastRead();
-        public void SetLastWrite();
+        void SetLastRead();
+        void SetLastWrite();
 
         /// <summary>
         /// Empty table structure information about a listing type of a table

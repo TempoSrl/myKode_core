@@ -60,8 +60,6 @@ namespace mdl
                 d2.Relations.Add(r2);
             }
             return d2;
-
-
         }
 
         /// <summary>
