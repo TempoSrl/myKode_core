@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using q = mdl.MetaExpression;
 //#pragma warning disable IDE1006 // Naming Styles
-using static mdl.Metaprofiler;
+using static mdl_utils.MetaProfiler;
 
 namespace mdl {
 

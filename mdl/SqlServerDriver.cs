@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SqlDataAdapter = AsyncDataAdapter.SqlDataAdapter;
 using LM = mdl_language.LanguageManager;
 using q = mdl.MetaExpression;
+using static mdl_utils.MetaProfiler;
 using System.Linq;
 
 namespace mdl {
@@ -181,7 +182,7 @@ namespace mdl {
             }
 
             var sqlCommand = GetDbCommand(sql, timeout) as SqlCommand;
-            int NN = Metaprofiler.StartTimer("SqlIntoDataSet*" + sql);
+            int NN = StartTimer("SqlIntoDataSet*" + sql);
             SqlDataAdapter myDA = null;
             try {
                 myDA = new SqlDataAdapter(sqlCommand);
@@ -200,7 +201,7 @@ namespace mdl {
             finally {
                 await sqlCommand.DisposeAsync();
                 myDA?.Dispose();
-                Metaprofiler.StopTimer(NN);
+                StopTimer(NN);
             }
         }
 
@@ -239,9 +240,9 @@ namespace mdl {
                 //metaprofiler.StopTimer(handleFill);
 
                 ClearDataSet.RemoveConstraints(DD);
-                var handleFill = Metaprofiler.StartTimer("MultipleTableBySql DA.FillAsync*" + multitab);
+                var handleFill = StartTimer("MultipleTableBySql DA.FillAsync*" + multitab);
                 await DA.FillAsync(DD);
-                Metaprofiler.StopTimer(handleFill);
+                StopTimer(handleFill);
             }
 
             catch (SqlException ex) {

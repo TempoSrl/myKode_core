@@ -5,7 +5,7 @@ using System.Data;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using static mdl.Metaprofiler;
+using static mdl_utils.MetaProfiler;
 #pragma warning disable IDE1006 // Naming Styles
 
 

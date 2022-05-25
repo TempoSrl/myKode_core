@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using Microsoft.CSharp.RuntimeBinder;
 using q = mdl.MetaExpression;
 using Microsoft.VisualStudio;
+using mdl_utils;
 //using msUnit = Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestNetCore {
@@ -381,7 +382,7 @@ namespace TestNetCore {
 
         [Test]  //[Ignore("This is about speed")]
         public void SelectGrouBySpeedTest() {
-            Metaprofiler.Enabled = true;
+            MetaProfiler.Enabled = true;
             int Limit = 100000;
             DataTable t = Conn.Select("assetview", 
                 filter: QHS.AppAnd(QHS.IsNotNull("codeinv"),QHS.IsNotNull("taxable"),QHS.IsNotNull("yearstart")),
@@ -397,7 +398,7 @@ namespace TestNetCore {
             Assert.IsNotNull(rows, "Select return rows");
             int NRows=0;
             NRows= rows.Count();
-            string s = Metaprofiler.ShowAll();
+            string s = MetaProfiler.ShowAll();
             Assert.IsTrue(NRows < Limit, "select returns less rows");
             int expectedMimimumThrouhput = 5000;  //10000 rows for second, 1 row for millisecond
             int expectedMaximumTime = (NRowsBase * 1000) / expectedMimimumThrouhput;

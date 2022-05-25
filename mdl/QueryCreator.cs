@@ -184,8 +184,8 @@ namespace mdl
         /// </summary>
         /// <param name="T"></param>
         /// <returns></returns>
-		public static string GetInsertFilter(DataTable T){
-			return T.ExtendedProperties["myFilterForInsert"] as string;
+		public static q GetInsertFilter(DataTable T){
+			return T.ExtendedProperties["myFilterForInsert"] as q;
 		}
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace mdl
         /// </summary>
         /// <param name="T"></param>
         /// <param name="S"></param>
-		public static void SetInsertFilter(DataTable T,string S){
+		public static void SetInsertFilter(DataTable T,q S){
 			T.ExtendedProperties["myFilterForInsert"]=S;
 		}
 
@@ -202,8 +202,8 @@ namespace mdl
         /// </summary>
         /// <param name="T"></param>
         /// <returns></returns>
-        public static string GetSearchFilter(DataTable T) {
-            return T.ExtendedProperties["myFilterForSearch"] as string;
+        public static q GetSearchFilter(DataTable T) {
+            return T.ExtendedProperties["myFilterForSearch"] as q;
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using q = mdl.MetaExpression;
 using System.Threading.Tasks;
+using static mdl_utils.MetaProfiler;
 
 namespace mdl {
     /// <summary>
@@ -122,7 +123,7 @@ namespace mdl {
         /// <param name="addChild">when true, all child of every parent found are retrieved </param>
         /// <param name="autoParentRelation"></param>
         public async Task DO_GET_PARENTS(DataRow r, bool addChild, DataRelation autoParentRelation) {
-            var handle = Metaprofiler.StartTimer("DO_GET_PARENTS");
+            var handle = StartTimer("DO_GET_PARENTS");
             try {
                 var parents = new DataRow[20];
                 parents[0] = r;
@@ -156,7 +157,7 @@ namespace mdl {
                 await expandChilds(list);
             }
             finally {
-                Metaprofiler.StopTimer(handle);
+                StopTimer(handle);
             }
         }
 

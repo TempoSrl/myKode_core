@@ -26,7 +26,7 @@ namespace mdl_utils
     /// <summary>
     /// Timer for making measurations
     /// </summary>
-	public class crono {
+	public class Crono {
         /// <summary>
         /// Timer name
         /// </summary>
@@ -41,7 +41,7 @@ namespace mdl_utils
         /// <param name="parent"></param>
         /// <param name="name"></param>
         /// <param name="level"></param>
-        public crono(crono parent, string name, int level) {
+        public Crono(Crono parent, string name, int level) {
             this.name = name;
             //Start = GetTimer.timeGetTime();
             S = new Stopwatch();
@@ -52,7 +52,7 @@ namespace mdl_utils
         /// Creates a timer
         /// </summary>
         /// <param name="name"></param>
-		public crono(string name) {
+		public Crono(string name) {
             this.name = name;
             //Start = GetTimer.timeGetTime();
             S = new Stopwatch();
@@ -90,7 +90,7 @@ namespace mdl_utils
 			totalduration=0;
             this.name = name;
 		}
-		public int  updatewith(crono C,int handle){
+		public int  updatewith(Crono C,int handle){
 			int duration = Convert.ToInt32(C.GetDuration());
 			totalduration+=duration;
             if (maxdeep < handle) maxdeep = handle;
@@ -154,7 +154,7 @@ namespace mdl_utils
 	/// <summary>
 	/// Summary description for metaprofiler.
 	/// </summary>
-	public class metaprofiler
+	public class MetaProfiler
 	{
         /// <summary>
         /// Current nesting level of profiling timer
@@ -179,7 +179,7 @@ namespace mdl_utils
         /// <summary>
         /// Default constructor
         /// </summary>
-		public metaprofiler()
+		public MetaProfiler()
 		{
 //			level=0;
 //			timers = new ArrayList(20);
@@ -194,11 +194,11 @@ namespace mdl_utils
 		public static int StartTimer(string name){
 			if (!Enabled) return -1;
             if (Thread.CurrentThread.Name != null) return -1;
-            crono newnode;
+            Crono newnode;
             if (name.Length > 80)
-                newnode = new crono(name.Substring(0, 80));
+                newnode = new Crono(name.Substring(0, 80));
             else
-                newnode = new crono(name);
+                newnode = new Crono(name);
             timers.Push(newnode);
             //QueryCreator.MarkEvent($"Opening timer {name} n. {timers.Count}  thread {Thread.CurrentThread.Name}");
             return timers.Count;
@@ -231,7 +231,7 @@ namespace mdl_utils
                 //return;
             }
             
-            var C = timers.Pop() as crono;
+            var C = timers.Pop() as Crono;
             if (C == null) {
                 //QueryCreator.MarkEvent($"error on cronometer {handle} len{timers.Count}, thread {Thread.CurrentThread.Name}");
                 Enabled = false;
@@ -248,7 +248,7 @@ namespace mdl_utils
             int duration = EVS.updatewith(C, handle);
 
             if (timers.Count > 0) {
-                var lastC = timers.Peek() as crono;
+                var lastC = timers.Peek() as Crono;
                 eventstat lastEV;
                 if (!totals.TryGetValue(lastC.name, out lastEV)) {
                     lastEV=new eventstat(lastC.name);

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using q = mdl.MetaExpression;
 using static mdl.IndexManager;
-using static mdl.Metaprofiler;
+using static mdl_utils.MetaProfiler;
 
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;

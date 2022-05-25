@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Compression;
+using mdl_utils;
 
 namespace mdl {
     public static class DataSetUtils {
@@ -78,7 +79,7 @@ namespace mdl {
         /// <param name="zip">if true, byte array is compressed</param>
         /// <returns></returns>
         public static byte[] PackDataSet(DataSet D, bool zip=true) {
-            int hh = Metaprofiler.StartTimer("PackDataSet");
+            int hh = MetaProfiler.StartTimer("PackDataSet");
             var MS = new MemoryStream();
             if (!zip) {
                 D.WriteXml(MS, XmlWriteMode.WriteSchema);
@@ -90,7 +91,7 @@ namespace mdl {
 			}
 
             byte[] A = MS.ToArray();
-            Metaprofiler.StopTimer(hh);
+            MetaProfiler.StopTimer(hh);
             return A;
         }
 
@@ -116,7 +117,7 @@ namespace mdl {
         /// <param name="zip">if true, byte array is first unzipped then converted to a dataset</param>
         /// <returns></returns>
         public static DataSet UnpackDataSet(byte[] A, bool zip) {
-            int hh = Metaprofiler.StartTimer("UnpackDataSet");
+            int hh = MetaProfiler.StartTimer("UnpackDataSet");
 			using var MS = new MemoryStream(A);
 			var D = new DataSet("dummy");
 			if (!zip) {
@@ -128,14 +129,14 @@ namespace mdl {
 					D.ReadXml(CS, XmlReadMode.ReadSchema);
 				}
 				catch {
-					//ErrorLogger.Logger.markException(E, "UnpackDataSet");
-					Metaprofiler.StopTimer(hh);
+                    //ErrorLogger.Logger.markException(E, "UnpackDataSet");
+                    MetaProfiler.StopTimer(hh);
 					return null;
 				}
 			}
 
 			D.AcceptChanges();
-			Metaprofiler.StopTimer(hh);
+            MetaProfiler.StopTimer(hh);
 			return D;
 		}
 
@@ -206,7 +207,7 @@ namespace mdl {
         /// <param name="emptyTable"></param>
         /// <param name="sourceTable"></param>
 	    public static void MergeIntoEmptyDataTable(DataTable emptyTable, DataTable sourceTable) {
-	        var handle1 = Metaprofiler.StartTimer($"MergeIntoEmptyDataTable * {sourceTable.TableName}");
+	        var handle1 = MetaProfiler.StartTimer($"MergeIntoEmptyDataTable * {sourceTable.TableName}");
 	        
 	            if (emptyTable.DataSet!=null){                        
 	                emptyTable.BeginLoadData();
@@ -221,8 +222,8 @@ namespace mdl {
 	                emptyTable.EndLoadData();
 	                temp.Tables.Remove(emptyTable);
 					temp.Dispose();
-	            }	        
-	        Metaprofiler.StopTimer(handle1);
+	            }
+            MetaProfiler.StopTimer(handle1);
 	    }
 
          /// <summary>
@@ -315,7 +316,7 @@ namespace mdl {
         /// <param name="destTable"></param>
         /// <param name="sourceTable"></param>
         private static void mergeIntoTableWithDictionary(DataTable destTable, DataTable sourceTable) {
-	        var handle2 = Metaprofiler.StartTimer("MergeIntoDataTableWithDictionary * " + sourceTable.TableName);
+	        var handle2 = MetaProfiler.StartTimer("MergeIntoDataTableWithDictionary * " + sourceTable.TableName);
 	        var destRows = new Dictionary<string, DataRow>();
             string []keys = (from DataColumn c in destTable.PrimaryKey select c.ColumnName).ToArray();
 	        foreach (DataRow r in destTable.Rows) {
@@ -338,7 +339,7 @@ namespace mdl {
                 destRow.AcceptChanges();
 	        }
 
-	        Metaprofiler.StopTimer(handle2);
+            MetaProfiler.StopTimer(handle2);
 	    }
 
 
@@ -350,7 +351,7 @@ namespace mdl {
 		/// <param name="outTable"></param>
 		/// <param name="toMerge"></param>
 		public static void MergeDataTable(DataTable outTable, DataTable toMerge) {	
-			var handle= Metaprofiler.StartTimer("MergeDataTable");
+			var handle= MetaProfiler.StartTimer("MergeDataTable");
             if ((outTable.TableName != toMerge.TableName) &&
                 (toMerge.TableName == "Table")) {
                 toMerge.TableName = outTable.TableName;
@@ -376,7 +377,7 @@ namespace mdl {
 				}
 			}
 
-			Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
 		}
 
 		/// <summary>
@@ -385,7 +386,7 @@ namespace mdl {
 		/// <param name="destTable"></param>
 		/// <param name="sourceTable"></param>
 		private static void mergeIntoTableRowByRow(DataTable destTable, DataTable sourceTable) {
-			var handle2 = Metaprofiler.StartTimer("MergeIntoDataTableRowByRow * " + sourceTable.TableName);			
+			var handle2 = MetaProfiler.StartTimer("MergeIntoDataTableRowByRow * " + sourceTable.TableName);			
 			foreach (DataRow dr in sourceTable.Rows) {
 				//OutTable.ImportRow(DR);
 				//OutTable.LoadDataRow(DR.ItemArray, true);
@@ -411,7 +412,7 @@ namespace mdl {
 
 				myDr.AcceptChanges();
 			}
-			Metaprofiler.StopTimer(handle2);
+            MetaProfiler.StopTimer(handle2);
 		}
 
 
@@ -421,7 +422,7 @@ namespace mdl {
 		/// <param name="destTable"></param>
 		/// <param name="sourceTable"></param>
 		private static void mergeIntoTableWithIndex(DataTable destTable, DataTable sourceTable, IMetaIndex index) {
-		    var handle2 = Metaprofiler.StartTimer("MergeIntoDataTableWithIndex * " + sourceTable.TableName);
+		    var handle2 = MetaProfiler.StartTimer("MergeIntoDataTableWithIndex * " + sourceTable.TableName);
 		    
 		    foreach (DataRow dr in sourceTable.Rows) {
 			    string hashSource = index.hash.get(dr);
@@ -439,7 +440,7 @@ namespace mdl {
 			    destRow.AcceptChanges();
 		    }
 
-		    Metaprofiler.StopTimer(handle2);
+            MetaProfiler.StopTimer(handle2);
 	    }
     }
 }

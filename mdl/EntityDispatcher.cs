@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using static mdl.Metaprofiler;
+using static mdl_utils.MetaProfiler;
 namespace mdl {
 
     /// <summary>
@@ -73,10 +73,10 @@ namespace mdl {
         public override IMetaData Get(string metaDataName) {
            
 
-            var handle = Metaprofiler.StartTimer("Get metaDataName * "+metaDataName);       
+            var handle = StartTimer("Get metaDataName * "+metaDataName);       
 
             if (NoLoad.Contains(metaDataName)) {
-                Metaprofiler.StopTimer(handle);
+                StopTimer(handle);
                 return DefaultMetaData( metaDataName);
             }
             var doLog = true;
@@ -170,7 +170,7 @@ namespace mdl {
                     logException(errMsg, null);
                     NoLoad[metaDataName]= 1;
                     unrecoverableError = true;
-                    Metaprofiler.StopTimer(handle);
+                    StopTimer(handle);
                     return DefaultMetaData(metaDataName);
                 }
                 errMsg = $"Error calling constructor of Class {myClassName} in file {myAssemblyName}";
@@ -183,16 +183,16 @@ namespace mdl {
                     ErrorLogger.Logger.MarkEvent($"{errMsg}(Detail:{e})");
                     logException(errMsg, e);
                     NoLoad[metaDataName]= 1;
-                    Metaprofiler.StopTimer(handle);
+                    StopTimer(handle);
                     unrecoverableError = true;
                     return DefaultMetaData( metaDataName);
                 }
-                Metaprofiler.StopTimer(handle);
+                StopTimer(handle);
                 return md;
             }
             catch (Exception e) {
                 logException($"Errore in caricamento {metaDataName}", e);
-                Metaprofiler.StopTimer(handle);
+                StopTimer(handle);
                 NoLoad[metaDataName]= 1;
                 unrecoverableError = true;
                 return DefaultMetaData( metaDataName);

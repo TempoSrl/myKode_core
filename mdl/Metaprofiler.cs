@@ -8,7 +8,8 @@ using System.Text;
 
 namespace mdl
 {
-
+/*
+ * 
 //    /// <summary>
 //    /// Gives acces to windows function timeGetTime 
 //    /// </summary>
@@ -296,4 +297,5 @@ namespace mdl
 
 		}
 	}
+*/
 }

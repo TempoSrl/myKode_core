@@ -6,6 +6,7 @@ using q = mdl.MetaExpression;
 using System.Data;
 using System.Linq;
 using System.Data.Common;
+using static mdl_utils.MetaProfiler;
 
 namespace mdl {
     public interface IDbManager {
@@ -165,7 +166,7 @@ namespace mdl {
             };
                
 
-            int handle = Metaprofiler.StartTimer($"GetStructure*{tableName}");
+            int handle = StartTimer($"GetStructure*{tableName}");
 
             DS = new dbstructure();
             ClearDataSet.RemoveConstraints(DS);
@@ -188,7 +189,7 @@ namespace mdl {
             lock (structureLock) {
                 structures[tableName] = DS;
             }
-            Metaprofiler.StopTimer(handle);
+            StopTimer(handle);
             return DS;
         }
 

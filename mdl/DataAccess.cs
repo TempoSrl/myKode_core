@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using q = mdl.MetaExpression;
 using LM = mdl_language.LanguageManager;
+using mdl_utils;
 using System.Data.Common;
 #pragma warning disable IDE1006 // Naming Styles
 
@@ -601,10 +602,10 @@ namespace mdl {
             if (tableNames.Length == 0) { 
                 return; 
             }
-            int handle = Metaprofiler.StartTimer("ReadStructures()");
+            int handle = MetaProfiler.StartTimer("ReadStructures()");
 
             if (!await Open()) {
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 return;
             }
 
@@ -616,7 +617,7 @@ namespace mdl {
             }
             await Close();
 
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
 
         }
 
@@ -638,7 +639,34 @@ namespace mdl {
             await ReadStructures(tabNames);
         }
 
+        /// <summary>
+        /// Only copy columns without any costraints, key or other ilarious things
+        /// </summary>
+        /// <param name="T"></param>
+        /// <param name="copykey">if true primary key is copied</param>
+        /// <returns></returns>
+        public static DataTable SimplifiedTableClone(DataTable T, bool copykey = false) {
+            DataTable T2 = new DataTable(T.TableName) {
+                Namespace = T.Namespace
+            };
+            for (int i = 0; i < T.Columns.Count; i++) {
+                DataColumn C = T.Columns[i];
+                DataColumn C2 = new DataColumn(C.ColumnName, C.DataType, C.Expression) {
+                    AllowDBNull = true
+                };
+                T2.Columns.Add(C2);
 
+            }
+            if (copykey) {
+                DataColumn[] key = T.PrimaryKey;
+                DataColumn[] key2 = new DataColumn[key.Length];
+                for (int i = 0; i < key.Length; i++) {
+                    key2[i] = T2.Columns[key[i].ColumnName];
+                }
+                T2.PrimaryKey = key2;
+            }
+            return T2;
+        }
 
         /// <summary>
         /// Return something like SELECT {colTable1} from {table1.TableName} JOIN {table2} ON  {joinFilter} [WHERE {whereFilter}]
@@ -719,13 +747,13 @@ namespace mdl {
             }
 
             //int handle = metaprofiler.StartTimer("Inside CreateTableByName("+tablename+")");
-            int handle = Metaprofiler.StartTimer("Inside CreateTableByName()");
+            int handle = MetaProfiler.StartTimer("Inside CreateTableByName()");
 
             var T = new DataTable(tablename);
             var DBS = await descriptor.GetStructure(tablename, this);
             if (DBS.columntypes.Rows.Count == 0) {
                 myLastError = $"No column found in columntypes for table {tablename}";
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 return T;
             }
 
@@ -767,7 +795,7 @@ namespace mdl {
             }
             if (Key.Length > 0) T.PrimaryKey = Key;
             await GetViewStructureExtProperties(T);
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
 
             if (addExtProp) await AddExtendedProperties(T);
 
@@ -783,20 +811,20 @@ namespace mdl {
         /// <param name="T"></param>
         public virtual async Task GetViewStructureExtProperties(DataTable T) {
             if (T.tableForPosting() != T.TableName) return;
-            int handle = Metaprofiler.StartTimer("GetViewStructureExtProperties(" + T.TableName + ")");
+            int handle = MetaProfiler.StartTimer("GetViewStructureExtProperties(" + T.TableName + ")");
             dbstructure DBS = await descriptor.GetStructure(T.TableName,this);
             if (DBS.customobject.Rows.Count == 0) {
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 return;
             }
             DataRow CurrObj = DBS.customobject.Rows[0];
             if (CurrObj["isreal"].ToString().ToLower() != "n") {
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 return;
             }
             string primarytable = CurrObj["realtable"].ToString();
             if (primarytable == "") {
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 return;
             }
             T.setTableForPosting(primarytable);
@@ -833,7 +861,7 @@ namespace mdl {
                 Col.SetColumnNameForPosting(postingcol);
                 Col.SetViewExpression(viewexpr);
             }
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
 
         }
 
@@ -847,7 +875,7 @@ namespace mdl {
         /// </summary>
         /// <param name="T"></param>
         public virtual async Task AddExtendedProperties(DataTable T) {
-            int handle = Metaprofiler.StartTimer($"AddExtendedProperty*{T.TableName}");
+            int handle = MetaProfiler.StartTimer($"AddExtendedProperty*{T.TableName}");
 
             var dbs = await descriptor.GetStructure(T.tableForReading(),this);
             foreach (var col in dbs.columntypes.Select()) {
@@ -859,7 +887,7 @@ namespace mdl {
                         col[columnProperty].ToString();
                 }
             }
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
 
         }
 
@@ -871,7 +899,7 @@ namespace mdl {
         /// <param name="Conn"></param>
         /// <param name="T"></param>
         public static async Task addExtendedProperty(IDataAccess Conn, DataTable T) {
-            int handle = Metaprofiler.StartTimer("AddExtendedProperty*"+T.TableName);
+            int handle = MetaProfiler.StartTimer("AddExtendedProperty*"+T.TableName);
             var COLTYPES = await Conn.Select(tablename:"columntypes", columnlist: "*",  filter: q.eq("tablename",T.TableName));
 
             foreach (DataRow Col in COLTYPES.Select()) {
@@ -882,7 +910,7 @@ namespace mdl {
                         Col[ColumnProperty].ToString();
                 }
             }
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
 
         }
 
@@ -934,7 +962,7 @@ namespace mdl {
         /// <returns></returns>
         public virtual async Task<(string listType, dbstructure dbs)> GetListType(string tablename, string listtype) {
             //int handle = metaprofiler.StartTimer("GetListType("+tablename+")");
-            int handle = Metaprofiler.StartTimer("GetListType*"+tablename);
+            int handle = MetaProfiler.StartTimer("GetListType*"+tablename);
             var DBS = await descriptor.GetStructure(tablename,this);
             if (listtype == null)  return (listtype,DBS);
             string DBfilter = QHS.MCmp(new {objectname = tablename, viewname = listtype});
@@ -947,7 +975,7 @@ namespace mdl {
                 DBS.customview.ExtendedProperties["AlreadyRead"] = Read;
             }
             if (Read[listtype] != null) {
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 return (listtype,DBS);
             }
 
@@ -960,7 +988,7 @@ namespace mdl {
                 var R = found[0];
                 string viewtable = R["objecttarget"].ToString();
                 var (_, dbs) = await GetListType( viewtable, R["viewtarget"].ToString());
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 return (R["viewtarget"].ToString(), dbs);
             }
 
@@ -987,7 +1015,7 @@ namespace mdl {
             if ((List.Length > 0) && (List[0]["issystem"].ToString().ToUpper() == "S")) {
                 Read[listtype] = "1";
             }
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
             return (listtype,DBS);
         }
 
@@ -1203,7 +1231,7 @@ namespace mdl {
             var res = new Dictionary<string, object>();
             try {
                 
-                NN = Metaprofiler.StartTimer("ReadObject*" + table);
+                NN = MetaProfiler.StartTimer("ReadObject*" + table);
                 var sql= Driver.GetSelectCommand(table: GetPrefixedTable(table),
                         columns: expr,
                         filter: Compile(filter));
@@ -1233,7 +1261,7 @@ namespace mdl {
                 return res;
             } 
             finally {
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
                 if (!BrokenConnection) {
                     await Close();
                 }
@@ -1256,7 +1284,7 @@ namespace mdl {
             if (!await Open()) {
                 return null;
             }
-            int NN = Metaprofiler.StartTimer("ReadValue*" + table);
+            int NN = MetaProfiler.StartTimer("ReadValue*" + table);
             try {                
                 cmd = Driver.GetSelectCommand(table: GetPrefixedTable(table), 
                     columns:expr,
@@ -1269,7 +1297,7 @@ namespace mdl {
             }        
             finally {               
                 await Close();
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
             }
         }
 
@@ -1283,7 +1311,7 @@ namespace mdl {
         public virtual async Task <object > ExecuteScalar(string sql, int timeout = -1) {
             await assureValidOpen();
 
-            int NN = Metaprofiler.StartTimer("ExecuteSql()"); ;
+            int NN = MetaProfiler.StartTimer("ExecuteSql()"); ;
             try {
                 var Result = await Driver.ExecuteScalar(sql, timeout: timeout);
                 SetLastRead();
@@ -1292,7 +1320,7 @@ namespace mdl {
             }           
             finally {
                 await Close();
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
             }
 
 
@@ -1306,7 +1334,7 @@ namespace mdl {
         public virtual async Task<object> ExecuteScalarLastResult(string sql,  int timeout = -1) {
 	        await assureValidOpen();
             
-            int NN = Metaprofiler.StartTimer("ExecuteScalarLastResult()");
+            int NN = MetaProfiler.StartTimer("ExecuteScalarLastResult()");
             var sbRes = new StringBuilder();
             IDbCommand cmd=null;
             int nRes = 0;
@@ -1342,7 +1370,7 @@ namespace mdl {
             finally {
                 await Driver.DisposeCommand(cmd);
                 await Close();
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
 
             }
 
@@ -1367,7 +1395,7 @@ namespace mdl {
 
             var cmd = Driver.GetDbCommand(sql, timeout);
 
-            int NN = Metaprofiler.StartTimer("ReadDictionaries");
+            int NN = MetaProfiler.StartTimer("ReadDictionaries");
             var resList = new List<Dictionary<string, object>>();
             DbDataReader Read = null;
             try {
@@ -1397,7 +1425,7 @@ namespace mdl {
                 await Read.DisposeAsync();
                 await Driver.DisposeCommand(cmd);
                 await Close();
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
             }
         }
 
@@ -1614,7 +1642,7 @@ namespace mdl {
         public virtual async Task SqlIntoDataSet(DataSet d, string sql, int timeout = -1) {
             await assureValidOpen();
 
-            int NN = Metaprofiler.StartTimer("SqlIntoDataSet*" + sql);
+            int NN = MetaProfiler.StartTimer("SqlIntoDataSet*" + sql);
 			try {
 				await Driver.SqlIntoDataSet(d,sql,timeout);
 				SetLastRead();
@@ -1622,7 +1650,7 @@ namespace mdl {
 			}           
             finally {
                 await Close();
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
             }
         }
 
@@ -1658,7 +1686,7 @@ namespace mdl {
 
             //if (sys["Transaction"]!=null) SPCall.Transaction= (SqlTransaction)	sys["Transaction"];
 
-            int NN = Metaprofiler.StartTimer("callSP " + sp_name);
+            int NN = MetaProfiler.StartTimer("callSP " + sp_name);
             try {
                 var myDS = new DataSet();
                 await Driver.SqlIntoDataSet(myDS, cmd, timeout);                
@@ -1668,7 +1696,7 @@ namespace mdl {
             }         
             finally {
                 await Close();
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
             }
 
         }
@@ -1688,7 +1716,7 @@ namespace mdl {
         /// <returns></returns>
         virtual public async Task CallVoidSPParams(string sp_name, DbParameter[] parameters, int timeout=-1) {
             await assureValidOpen();
-            int NN = Metaprofiler.StartTimer("callVoidSP*" + sp_name);
+            int NN = MetaProfiler.StartTimer("callVoidSP*" + sp_name);
 
             try {
                 await Driver.CallVoidSPParams(GetPrefixedStoredProcedure(sp_name), parameters,timeout);
@@ -1697,7 +1725,7 @@ namespace mdl {
             }
             finally {
                 await Close();
-                Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
             }
 
         }
@@ -1718,7 +1746,7 @@ namespace mdl {
         virtual public async Task<DataSet> CallSPParams(string sp_name,DbParameter[] parameters,int timeout) {
             await assureValidOpen();
 
-            int NN = Metaprofiler.StartTimer("callSp " + sp_name);
+            int NN = MetaProfiler.StartTimer("callSp " + sp_name);
             
             try {
 	            var ds  = await Driver.CallSPParams(GetPrefixedStoredProcedure(sp_name),parameters, timeout);	            
@@ -1728,7 +1756,7 @@ namespace mdl {
             }            
             finally {
 	            await Close();
-	            Metaprofiler.StopTimer(NN);
+                MetaProfiler.StopTimer(NN);
             }
 
 
@@ -1752,7 +1780,7 @@ namespace mdl {
         /// <returns></returns>
         public static DataTable singleTableClone(DataTable T, bool copyProperties) {
             //#if DEBUG
-            int handle = Metaprofiler.StartTimer("SingleTableClone");
+            int handle = MetaProfiler.StartTimer("SingleTableClone");
             //#endif
             DataTable T2 = new DataTable(T.TableName) {
                 Namespace = T.Namespace
@@ -1771,7 +1799,7 @@ namespace mdl {
             T2.PrimaryKey = key2;
             if (!copyProperties) {
                 //#if DEBUG
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
                 //#endif
                 return T2;
             }
@@ -1784,7 +1812,7 @@ namespace mdl {
                     C2.ExtendedProperties[kc] = C.ExtendedProperties[kc];
             }
             //#if DEBUG
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
             //#endif
             return T2;
         }
@@ -1824,7 +1852,7 @@ namespace mdl {
             string top = null,
             int timeout = -1) {
 
-            var handle = Metaprofiler.StartTimer($"public SelectIntoTable({T.TableName})");
+            var handle = MetaProfiler.StartTimer($"public SelectIntoTable({T.TableName})");
             var EmptyTable = singleTableClone(T, false);
            
 			if (model.IsSkipSecurity(T)) {
@@ -1846,7 +1874,7 @@ namespace mdl {
                 DataSetUtils.MergeDataTable(T, EmptyTable);
             }
             finally {
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -1887,7 +1915,7 @@ namespace mdl {
                 return null;
             await assureValidOpen();
 
-            int handle = Metaprofiler.StartTimer("executeQuery()");
+            int handle = MetaProfiler.StartTimer("executeQuery()");
             try {
                 var t = await Driver.TableBySql(sql, timeout: timeout);
                 assureValidTransaction(sql);
@@ -1900,7 +1928,7 @@ namespace mdl {
             }
             finally {
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -1966,7 +1994,7 @@ namespace mdl {
             await assureOpen();
 
             string tablename = emptyTable.TableName;
-            int handle = Metaprofiler.StartTimer("selectIntoEmptyTable*" + tablename);
+            int handle = MetaProfiler.StartTimer("selectIntoEmptyTable*" + tablename);
             string columnlist = QueryCreator.RealColumnNameList(emptyTable);
 
             filter = Compile(filter, emptyTable);
@@ -1990,7 +2018,7 @@ namespace mdl {
             }
             finally {
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -2010,7 +2038,7 @@ namespace mdl {
                 return;
             }
 
-            int handle = Metaprofiler.StartTimer($"public SqlIntoTable*{T.TableName}");
+            int handle = MetaProfiler.StartTimer($"public SqlIntoTable*{T.TableName}");
             var EmptyTable = singleTableClone(T, false);
             EmptyTable.TableName = T.tableForReading();
             await ExecuteQueryIntoEmptyTable(EmptyTable, sql,timeout);
@@ -2019,7 +2047,7 @@ namespace mdl {
             EmptyTable.Namespace = T.Namespace;
 
             DataSetUtils.MergeDataTable(T, EmptyTable);
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
             return;
         }
 
@@ -2036,7 +2064,7 @@ namespace mdl {
 
             sql = Compile(sql);
 
-            int handle = Metaprofiler.StartTimer("SqlIntoEmptyTable*(" + sql + ")");
+            int handle = MetaProfiler.StartTimer("SqlIntoEmptyTable*(" + sql + ")");
             var Cmd = Driver.GetDbCommand(sql, timeout: timeout);
 
             try {
@@ -2054,7 +2082,7 @@ namespace mdl {
             finally {
                 await Driver.DisposeCommand(Cmd);
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -2076,7 +2104,7 @@ namespace mdl {
             await assureOpen();
             var result = new Dictionary<T, S>();
 
-            int handle = Metaprofiler.StartTimer("ReadDictionary*" + tablename);
+            int handle = MetaProfiler.StartTimer("ReadDictionary*" + tablename);
             string selCmd = GetSelectCommand(
                 table: GetPrefixedTable(tablename),
                 columns: $"{keyField},{valueField}",
@@ -2104,7 +2132,7 @@ namespace mdl {
                 await Driver.DisposeCommand(Cmd);
                 reader?.Dispose();
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -2127,7 +2155,7 @@ namespace mdl {
                 throw new Exception(LM.errorOpeningConnection);
             }
             var result = new Dictionary<T, RowObject>();
-            int handle = Metaprofiler.StartTimer("SelectRowObjectDictionary*" + tablename );
+            int handle = MetaProfiler.StartTimer("SelectRowObjectDictionary*" + tablename );
 
             string selCmd = GetSelectCommand(
                 table: GetPrefixedTable(tablename),
@@ -2137,7 +2165,7 @@ namespace mdl {
             
             var cmd = Driver.GetDbCommand(selCmd);
             
-            int handleFill = Metaprofiler.StartTimer("Cmd.SelectRowObjectDictionary*" + tablename);
+            int handleFill = MetaProfiler.StartTimer("Cmd.SelectRowObjectDictionary*" + tablename);
             DbDataReader reader = null;
             try {
                 reader = await Driver.ExecuteReaderAsync(cmd);
@@ -2165,7 +2193,7 @@ namespace mdl {
                 await Driver.DisposeCommand(cmd);
                 await reader.DisposeAsync();
                 await Close();
-                Metaprofiler.StopTimer(handleFill);
+                MetaProfiler.StopTimer(handleFill);
             }
           
           
@@ -2183,7 +2211,7 @@ namespace mdl {
             }
 
             var result = new Dictionary<string, List<RowObject>>();           
-            int handle = Metaprofiler.StartTimer("SelectRowObjects()");
+            int handle = MetaProfiler.StartTimer("SelectRowObjects()");
             sql = Compile(sql);
             var cmd = Driver.GetDbCommand(sql);
           
@@ -2227,7 +2255,7 @@ namespace mdl {
                 await Driver.DisposeCommand(cmd);
                 await reader.DisposeAsync();
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -2254,7 +2282,7 @@ namespace mdl {
             }
 
             var result = new List<RowObject>();
-            int handle = Metaprofiler.StartTimer("RowObject_Select*" + tablename );            
+            int handle = MetaProfiler.StartTimer("RowObject_Select*" + tablename );            
 
             string sql = GetSelectCommand(
                 table:GetPrefixedTable(tablename),
@@ -2292,7 +2320,7 @@ namespace mdl {
                 if (reader!=null) await reader.DisposeAsync();
                 await Driver.DisposeCommand(cmd);
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -2399,7 +2427,7 @@ namespace mdl {
                 model.InvokeActions(Sel.DestTable, TableAction.beginLoad);             
             }
 
-            int handle = Metaprofiler.StartTimer("MultipleSelect " + multitab);
+            int handle = MetaProfiler.StartTimer("MultipleSelect " + multitab);
 
             string selCmd = Driver.JoinMultipleSelectCommands(cmd.ToArray());
 
@@ -2416,7 +2444,7 @@ namespace mdl {
                         model.InvokeActions(sel.DestTable, TableAction.endLoad);
                     }
                     else {
-                        var handleMerge = Metaprofiler.StartTimer("MultipleSelect DA.Merge*" + multitab);
+                        var handleMerge = MetaProfiler.StartTimer("MultipleSelect DA.Merge*" + multitab);
                         sel.DestTable.BeginLoadData();
                         if (DD.Tables[sel.DestTable.TableName] != null)
                             sel.DestTable.Merge(DD.Tables[sel.DestTable.TableName], true, MissingSchemaAction.Ignore);
@@ -2433,7 +2461,7 @@ namespace mdl {
             }            
             finally {                
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
         }
 
@@ -2454,7 +2482,7 @@ namespace mdl {
             var emptyDs = new DataSet();
             ClearDataSet.RemoveConstraints(emptyDs);
 
-            int handle = Metaprofiler.StartTimer("readFromTable*" + tablename );
+            int handle = MetaProfiler.StartTimer("readFromTable*" + tablename );
             
             string SelCmd = GetSelectCommand(
                 table:GetPrefixedTable(tablename),
@@ -2473,7 +2501,7 @@ namespace mdl {
             }           
             finally {
                 await Close();
-                Metaprofiler.StopTimer(handle);
+                MetaProfiler.StopTimer(handle);
             }
             
         }
@@ -3223,9 +3251,9 @@ namespace mdl {
         /// </summary>
         public virtual void OnRead() {
             if (myOnRead == null) return;
-            int handle = Metaprofiler.StartTimer("OnRead()");
+            int handle = MetaProfiler.StartTimer("OnRead()");
             myOnRead(DestTable, Context);
-            Metaprofiler.StopTimer(handle);
+            MetaProfiler.StopTimer(handle);
         }
 
         /// <summary>

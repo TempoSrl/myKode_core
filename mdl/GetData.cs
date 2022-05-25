@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using q  = mdl.MetaExpression;
-using static mdl.Metaprofiler;
+using static mdl_utils.MetaProfiler;
 using System.Threading.Tasks;
 
 #pragma warning disable IDE1006 // Naming Styles

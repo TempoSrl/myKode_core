@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using static mdl.Metaprofiler;
+using static mdl_utils.MetaProfiler;
 using System.Linq;
 using q  = mdl.MetaExpression;
 
@@ -312,7 +312,7 @@ namespace mdl {
         /// <param name="T"></param>
         public virtual void Clear(DataTable T) {
             if (T.Rows.Count == 0) return;
-            var metaclear = Metaprofiler.StartTimer($"MyClear * {T.TableName}");
+            var metaclear = StartTimer($"MyClear * {T.TableName}");
             InvokeActions(T, TableAction.startClear);
             InvokeActions(T, TableAction.beginLoad);
             
@@ -322,8 +322,8 @@ namespace mdl {
             T.EndLoadData();
             InvokeActions(T, TableAction.endLoad);
             InvokeActions(T, TableAction.endClear);
-            
-            Metaprofiler.StopTimer(metaclear);
+
+            StopTimer(metaclear);
         }
 
         public virtual void ClearActions(DataTable T, TableAction actionType, Action<DataTable> a) {
@@ -566,7 +566,7 @@ namespace mdl {
         /// </summary>
         /// <returns></returns>
         public bool HasChanges( DataTable mainTable, DataRow sourceRow, bool isSubentity) {
-            var handle = Metaprofiler.StartTimer("HasUnsavedChanges()");
+            var handle = StartTimer("HasUnsavedChanges()");
             try {
 	            DataSet ds = mainTable.DataSet;
 	            mainTable.DataSet.RemoveFalseUpdates();
@@ -581,7 +581,7 @@ namespace mdl {
                 return xVerifyChangeChilds( mainTable, sourceRow);
             }
             finally {
-                Metaprofiler.StopTimer(handle);
+                StopTimer(handle);
             }
         }
 
@@ -883,7 +883,7 @@ namespace mdl {
 			if (T.ExtendedProperties["CalculatedListing"]==null) return;
 			string ListType = T.ExtendedProperties["CalculatedListing"].ToString();
 			if (T.ExtendedProperties["CalculatedFunction"]==null) return;
-			int handle = Metaprofiler.StartTimer("CalculateTable * " + T.TableName);
+			int handle = StartTimer("CalculateTable * " + T.TableName);
 			CalcFieldsDelegate Calc = (CalcFieldsDelegate) T.ExtendedProperties["CalculatedFunction"];
 			InvokeActions(T, TableAction.beginLoad);
 			if (T.HasChanges()) {
@@ -904,7 +904,7 @@ namespace mdl {
 			}
 			
 			InvokeActions(T, TableAction.endLoad);
-			Metaprofiler.StopTimer(handle);
+			StopTimer(handle);
 			//MarkEvent("Calculate Stop");
 		}
 
